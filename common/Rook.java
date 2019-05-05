@@ -46,6 +46,10 @@ public class Rook implements Figure {
         if (position == null || position.equals(moveTo))
             return false;
 
+        // Do not capture piece of same color
+        if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
+            return false;
+
         boolean emptiness = true;
 
         while (field != null && emptiness && !field.equals(moveTo)) {

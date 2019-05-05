@@ -8,12 +8,14 @@ public class Chess implements Game {
     protected int size;
     protected Stack<Field> movedFrom;
     protected Stack<Field> movedTo;
+    protected boolean whiteTurn;
 
     public Chess(Board board) {
         this.board = board;
-        this.size = board.getSize(); 
+        this.size = board.getSize();
         this.movedFrom = new Stack<Field>();
         this.movedTo = new Stack<Field>();
+        this.whiteTurn = true;
 
         for(int i = 1; i <= size; i++) {
             Pawn whitePawn = new Pawn(true, "whitePawn");
@@ -51,11 +53,16 @@ public class Chess implements Game {
 
     @Override
     public boolean move(Figure figure, Field field) {
+        // move of incorrect color
+        if (figure.isWhite() != whiteTurn)
+            return false;
+
         // store old position
         movedFrom.push(figure.getPosition());
         if (figure.move(field)) {
             // store new position
             movedTo.push(field);
+            this.whiteTurn = !whiteTurn;
             return true;
         } else {
             movedFrom.pop();

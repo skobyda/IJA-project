@@ -33,18 +33,7 @@ public class Main extends Application {
         Board board = new Board(8);
         Game game = GameFactory.createChessGame(board);
 
-        for (int col = 0; col < 8; col++) {
-            for (int row = 0; row < 8; row++) {
-                FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
-                fieldGroup.getChildren().add(field);
-
-                Figure figureBackend = board.getField(col + 1, row + 1).get();
-                if (figureBackend != null) {
-                    FigureGUI figure = new FigureGUI(figureBackend, game, board, 50);
-                    figureGroup.getChildren().add(figure);
-                }
-            }
-        }
+        spreadFigures(board, game);
 
         StackPane layout = new StackPane();
         layout.getChildren().addAll(fieldGroup, figureGroup);
@@ -54,5 +43,41 @@ public class Main extends Application {
         window.show();
     }
 
+    public void spreadFigures(Board board, Game game) {
+        figureGroup.getChildren().clear();
 
+        for (int col = 0; col < 8; col++) {
+            for (int row = 0; row < 8; row++) {
+                FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
+                fieldGroup.getChildren().add(field);
+
+                Figure figureBackend = board.getField(col + 1, row + 1).get();
+                if (figureBackend != null) {
+                    FigureGUI figure = new FigureGUI(figureBackend, game, board, 50);
+
+                    figure.setOnMouseReleased(e -> {
+                        int newX = (int) e.getSceneX() / 50 + 1;
+                        int newY = (int) e.getSceneY() / 50 + 1;
+
+                        if (newX < 1)
+                            newX = 1;
+                        else if (newX > 8)
+                            newX = 8;
+
+                        if (newY < 1)
+                            newY = 1;
+                        else if (newY > 8)
+                            newY = 8;
+
+                        Field newField = board.getField(newX, newY);
+                        game.move(figureBackend, newField);
+
+                        spreadFigures(board, game);
+                    });
+
+                    figureGroup.getChildren().add(figure);
+                }
+            }
+        }
+    }
 }

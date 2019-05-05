@@ -66,21 +66,21 @@ public class FigureGUI extends ImageView {
             relocate(newX, newY);
         });
 
-        setOnMouseReleased(e -> {
+        /* setOnMouseReleased(e -> {
             int newX = (int) e.getSceneX() / size + 1;
             int newY = (int) e.getSceneY() / size + 1;
+
             Field field = boardBackend.getField(newX, newY);
-            System.out.println(newX);
-            System.out.println(newY);
             gameBackend.move(figureBackend, field);
 
-            relocate(figureBackend.getPosition().getRow() * size, figureBackend.getPosition().getCol() * size);
+            refreshLocation();
         });
+        */
     }
 
-    void refreshLocation() {
-        int col = figureBackend.getPosition().getCol();
+    public void refreshLocation() {
         int row = figureBackend.getPosition().getRow();
+        int col = figureBackend.getPosition().getCol();
 
         relocate(row * size, col * size);
     }
