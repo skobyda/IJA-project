@@ -3,13 +3,19 @@ package ija.ija2018.homework2.common;
 public class Rook implements Figure {
 	private boolean isWhite;
     private Field position;
+    private String type;
 
-	public Rook(boolean isWhite) {
+	public Rook(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
+        this.type = typeStr;
     }
 
 	public boolean isWhite() {
         return isWhite;
+    }
+
+	public String getType() {
+        return type;
     }
 
     @Override

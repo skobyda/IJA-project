@@ -18,7 +18,7 @@ public class FieldGUI extends Rectangle {
 
         relocate(row * size, column * size);
 
-        setFill(white ? Color.valueOf("#fff") : Color.valueOf("#000"));
+        setFill(white ? Color.valueOf("#fff") : Color.valueOf("#666"));
     }
 
 }

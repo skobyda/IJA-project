@@ -23,6 +23,14 @@ public class BoardField implements Field {
         this.history = new Stack<Figure>();
     }
 
+	public int getCol() {
+        return col;
+    }
+
+	public int getRow() {
+        return row;
+    }
+
 	public int[] getPosition() {
         int[] position = {row, col};
         return position;

@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.scene.*;
 
 import ija.ija2018.homework2.gui.FieldGUI;
+import ija.ija2018.homework2.gui.FigureGUI;
 import ija.ija2018.homework2.common.Field;
 import ija.ija2018.homework2.common.Figure;
 import ija.ija2018.homework2.common.Game;
@@ -18,6 +19,7 @@ public class Main extends Application {
     Stage window;
 
     private Group fieldGroup = new Group();
+    private Group figureGroup = new Group();
 
     public static void main(String[] args) {
         launch(args);
@@ -35,11 +37,17 @@ public class Main extends Application {
             for (int row = 0; row < 8; row++) {
                 FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
                 fieldGroup.getChildren().add(field);
+
+                Figure figureBackend = board.getField(col + 1, row + 1).get();
+                if (figureBackend != null) {
+                    FigureGUI figure = new FigureGUI(figureBackend, game, board, 50);
+                    figureGroup.getChildren().add(figure);
+                }
             }
         }
 
         StackPane layout = new StackPane();
-        layout.getChildren().addAll(fieldGroup);
+        layout.getChildren().addAll(fieldGroup, figureGroup);
         Scene scene = new Scene(layout, 400, 400);
 
         window.setScene(scene);

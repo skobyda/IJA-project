@@ -5,13 +5,19 @@ import java.util.*;
 public class Pawn implements Figure {
 	private boolean isWhite;
     private Field position;
+    private String type;
 
-	public Pawn(boolean isWhite) {
+	public Pawn(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
+        this.type = typeStr;
     }
 
 	public boolean isWhite() {
         return isWhite;
+    }
+
+	public String getType() {
+        return type;
     }
 
     @Override

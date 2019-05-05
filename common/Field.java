@@ -13,6 +13,8 @@ public interface Field {
     }
 
 	public void undo();
+    public int getCol();
+    public int getRow();
 	public int[] getPosition();
 	public boolean put(Figure figure);
 	public Figure get();
