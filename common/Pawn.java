@@ -50,14 +50,35 @@ public class Pawn implements Figure {
         if (position == null || position.equals(moveTo))
             return false;
 
-        // Do not capture piece of same color
-        if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
-            return false;
+        System.out.println(position);
+        Figure figureToCapture = moveTo.get();
+        // There is a figure on destination Field, so we want to capture it
+        if (figureToCapture != null) {
+            // Do not capture piece of same color
+            if (moveTo.get().isWhite() == isWhite)
+                return false;
 
+            Field field1 = position.nextField(isWhite ? Field.Direction.LD : Field.Direction.LU);
+            Field field2 = position.nextField(isWhite ? Field.Direction.RD : Field.Direction.RU);
+            System.out.println(field1.get());
+            System.out.println(field2.get());
+            System.out.println(figureToCapture);
+
+            if (field1.equals(moveTo) || field2.equals(moveTo)) {
+                position.remove(this);
+                this.position = moveTo;
+                this.firstMove = false;
+                return moveTo.put(this);
+            }
+
+            return false;
+        }
+
+        // There is no figure to capture
         Field field = position;
         int i = 0;
-        // Pawn's reach can be to for its first move
-        while (((firstMove && i < 2) || i < 1) && 
+        // Pawn's reach can be 2 if its first move
+        while (((firstMove && i < 2) || i < 1) &&
                field != null &&
                !field.equals(moveTo)) {
             i++;

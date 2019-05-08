@@ -22,13 +22,13 @@ public class Board {
         for (int i = 1; i < size + 1; i++) {
             for (int j = 1; j < size + 1; j++) {
                 field[i][j].addNextField(Field.Direction.D, field[i-1][j]);
-                field[i][j].addNextField(Field.Direction.LU, field[i-1][j+1]);
-                field[i][j].addNextField(Field.Direction.R, field[i][j+1]);
-                field[i][j].addNextField(Field.Direction.RU, field[i+1][j+1]);
                 field[i][j].addNextField(Field.Direction.U, field[i+1][j]);
-                field[i][j].addNextField(Field.Direction.RD, field[i+1][j-1]);
                 field[i][j].addNextField(Field.Direction.L, field[i][j-1]);
+                field[i][j].addNextField(Field.Direction.R, field[i][j+1]);
+                field[i][j].addNextField(Field.Direction.LU, field[i-1][j+1]);
                 field[i][j].addNextField(Field.Direction.LD, field[i-1][j-1]);
+                field[i][j].addNextField(Field.Direction.RU, field[i+1][j+1]);
+                field[i][j].addNextField(Field.Direction.RD, field[i+1][j-1]);
             }
         }
     }
