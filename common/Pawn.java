@@ -46,7 +46,7 @@ public class Pawn implements Figure {
 
     @Override
     public boolean move(Field moveTo) {
-        Field field = position;
+        // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
 
@@ -54,32 +54,31 @@ public class Pawn implements Figure {
         if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
             return false;
 
-        boolean emptiness = true;
-        int i;
-
-        field = position;
-        i = 0;
-        while (((firstMove && i < 2) || i < 1) &&
+        Field field = position;
+        int i = 0;
+        // Pawn's reach can be to for its first move
+        while (((firstMove && i < 2) || i < 1) && 
                field != null &&
-               emptiness &&
                !field.equals(moveTo)) {
             i++;
+            field = field.nextField(isWhite ? Field.Direction.D : Field.Direction.U);
 
-            if (isWhite())
-                field = field.nextField(Field.Direction.U);
-            else
-                field = field.nextField(Field.Direction.D);
-
-            if (field != null) {
-                emptiness = field.isEmpty();
-                if (field.equals(moveTo)) {
-                    position.remove(this);
-                    this.position = moveTo;
-                    moveTo.put(this);
-                    this.firstMove = false;
-                    return true;
-                }
+            // Out of board
+            if (field == null) {
+                break;
             }
+
+            // Successfully found the destination field
+            if (field.equals(moveTo)) {
+                position.remove(this);
+                this.position = moveTo;
+                this.firstMove = false;
+                return moveTo.put(this);
+            }
+
+            // Figure is in the way
+            if (!field.isEmpty())
+                break;
         }
 
         return false;

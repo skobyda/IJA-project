@@ -44,7 +44,7 @@ public class King implements Figure {
 
     @Override
     public boolean move(Field moveTo) {
-        Field field = position;
+        // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
 
@@ -52,6 +52,7 @@ public class King implements Figure {
         if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
             return false;
 
+        // List of allowed directions for this figure
         List<Field.Direction> directions = new ArrayList<Field.Direction>();
         directions.add(Field.Direction.U);
         directions.add(Field.Direction.D);
@@ -62,19 +63,16 @@ public class King implements Figure {
         directions.add(Field.Direction.RU);
         directions.add(Field.Direction.RD);
 
+        // Try to find the destination in certain direction
         for (Field.Direction dir : directions) {
-            field = field.nextField(dir);
+            Field field = position.nextField(dir);
 
-            if (field != null) {
-                if (field.equals(moveTo)) {
-                    position.remove(this);
-                    this.position = moveTo;
-                    moveTo.put(this);
-                    return true;
-                }
+            // Successfully found the destination field
+            if (field != null && field.equals(moveTo)) {
+                position.remove(this);
+                this.position = moveTo;
+                return moveTo.put(this);
             }
-
-            field = position;
         }
 
         return false;

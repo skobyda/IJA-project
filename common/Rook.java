@@ -1,5 +1,7 @@
 package ija.ija2018.homework2.common;
 
+import java.util.*;
+
 public class Rook implements Figure {
 	private boolean isWhite;
     private Field position;
@@ -42,7 +44,7 @@ public class Rook implements Figure {
 
     @Override
     public boolean move(Field moveTo) {
-        Field field = position;
+        // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
 
@@ -50,59 +52,36 @@ public class Rook implements Figure {
         if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
             return false;
 
-        boolean emptiness = true;
+        // List of allowed directions for this figure
+        List<Field.Direction> directions = new ArrayList<Field.Direction>();
+        directions.add(Field.Direction.U);
+        directions.add(Field.Direction.D);
+        directions.add(Field.Direction.L);
+        directions.add(Field.Direction.R);
 
-        while (field != null && emptiness && !field.equals(moveTo)) {
-            field = field.nextField(Field.Direction.L);
-            if (field != null) {
-                emptiness = field.isEmpty();
+        // Try to find the destination in certain direction
+        for (Field.Direction dir : directions) {
+            Field field = position;
+
+            // Rook is not distance limited, so "Explore" this direction
+            while (field != null && !field.equals(moveTo)) {
+                field = field.nextField(dir);
+
+                // Out of board
+                if (field == null) {
+                    break;
+                }
+
+                // Successfully found the destination field
                 if (field.equals(moveTo)) {
                     position.remove(this);
                     this.position = moveTo;
                     return moveTo.put(this);
                 }
-            }
-        }
 
-        emptiness = true;
-        field = position;
-        while (field != null && emptiness && !field.equals(moveTo)) {
-            field = field.nextField(Field.Direction.R);
-            if (field != null) {
-                emptiness = field.isEmpty();
-                if (field.equals(moveTo)) {
-                    position.remove(this);
-                    this.position = moveTo;
-                    return moveTo.put(this);
-                }
-            }
-        }
-
-        emptiness = true;
-        field = position;
-        while (field != null && emptiness && !field.equals(moveTo)) {
-            field = field.nextField(Field.Direction.U);
-            if (field != null) {
-                emptiness = field.isEmpty();
-                if (field.equals(moveTo)) {
-                    position.remove(this);
-                    this.position = moveTo;
-                    return moveTo.put(this);
-                }
-            }
-        }
-
-        emptiness = true;
-        field = position;
-        while (field != null && emptiness && !field.equals(moveTo)) {
-            field = field.nextField(Field.Direction.D);
-            if (field != null) {
-                emptiness = field.isEmpty();
-                if (field.equals(moveTo)) {
-                    position.remove(this);
-                    this.position = moveTo;
-                    return moveTo.put(this);
-                }
+                // Figure is in the way
+                if (!field.isEmpty())
+                    break;
             }
         }
 
