@@ -4,8 +4,11 @@ import javafx.application.Application;
 // import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 import ija.ija2018.homework2.gui.FieldGUI;
 import ija.ija2018.homework2.gui.FigureGUI;
@@ -20,6 +23,10 @@ public class Main extends Application {
 
     private Group fieldGroup = new Group();
     private Group figureGroup = new Group();
+    private Button button;
+
+    private Board board = new Board(8);
+    private Game game = GameFactory.createChessGame(board);
 
     public static void main(String[] args) {
         launch(args);
@@ -30,20 +37,27 @@ public class Main extends Application {
         window = primaryStage;
         window.setTitle("Michal's and Simon's Chess");
 
-        Board board = new Board(8);
-        Game game = GameFactory.createChessGame(board);
+        spreadFigures();
 
-        spreadFigures(board, game);
+        button = new Button();
+        button.setText("Undo");
+        button.setOnAction(e -> this.handle(e));
 
         StackPane layout = new StackPane();
         layout.getChildren().addAll(fieldGroup, figureGroup);
-        Scene scene = new Scene(layout, 400, 400);
+
+        AnchorPane tmp = new AnchorPane();
+        tmp.setTopAnchor(layout, 0.0);
+        tmp.setBottomAnchor(button, 0.0);
+        tmp.getChildren().addAll(layout, button);
+
+        Scene scene = new Scene(tmp, 400, 450);
 
         window.setScene(scene);
         window.show();
     }
 
-    public void spreadFigures(Board board, Game game) {
+    public void spreadFigures() {
         figureGroup.getChildren().clear();
 
         for (int col = 0; col < 8; col++) {
@@ -72,12 +86,19 @@ public class Main extends Application {
                         Field newField = board.getField(newX, newY);
                         game.move(figureBackend, newField);
 
-                        spreadFigures(board, game);
+                        spreadFigures();
                     });
 
                     figureGroup.getChildren().add(figure);
                 }
             }
+        }
+    }
+
+    public void handle(ActionEvent event) {
+        if(event.getSource() == button) {
+            game.undo();
+            spreadFigures();
         }
     }
 }
