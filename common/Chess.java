@@ -43,6 +43,20 @@ public class Chess implements Game {
         blackQueen1.setPosition(board.getField(4, 1));
         board.getField(4, 1).put(blackQueen1);
 
+        Knight whiteKnight1 = new Knight(true, "whiteKnight");
+        whiteKnight1.setPosition(board.getField(3, 8));
+        board.getField(3, 8).put(whiteKnight1);
+        Knight whiteKnight3 = new Knight(true, "whiteKnight");
+        whiteKnight3.setPosition(board.getField(6, 8));
+        board.getField(6, 8).put(whiteKnight3);
+
+        Knight blackKnight1 = new Knight(false, "blackKnight");
+        blackKnight1.setPosition(board.getField(6, 1));
+        board.getField(6, 1).put(blackKnight1);
+        Knight blackKnight2 = new Knight(false, "blackKnight");
+        blackKnight2.setPosition(board.getField(3, 1));
+        board.getField(3, 1).put(blackKnight2);
+
         Bishop whiteBishop1 = new Bishop(true, "whiteBishop");
         whiteBishop1.setPosition(board.getField(2, 8));
         board.getField(2, 8).put(whiteBishop1);
