@@ -44,32 +44,32 @@ public class Chess implements Game {
         board.getField(4, 1).put(blackQueen1);
 
         Knight whiteKnight1 = new Knight(true, "whiteKnight");
-        whiteKnight1.setPosition(board.getField(3, 8));
-        board.getField(3, 8).put(whiteKnight1);
+        whiteKnight1.setPosition(board.getField(2, 8));
+        board.getField(2, 8).put(whiteKnight1);
         Knight whiteKnight3 = new Knight(true, "whiteKnight");
-        whiteKnight3.setPosition(board.getField(6, 8));
-        board.getField(6, 8).put(whiteKnight3);
+        whiteKnight3.setPosition(board.getField(7, 8));
+        board.getField(7, 8).put(whiteKnight3);
 
         Knight blackKnight1 = new Knight(false, "blackKnight");
-        blackKnight1.setPosition(board.getField(6, 1));
-        board.getField(6, 1).put(blackKnight1);
+        blackKnight1.setPosition(board.getField(7, 1));
+        board.getField(7, 1).put(blackKnight1);
         Knight blackKnight2 = new Knight(false, "blackKnight");
-        blackKnight2.setPosition(board.getField(3, 1));
-        board.getField(3, 1).put(blackKnight2);
+        blackKnight2.setPosition(board.getField(2, 1));
+        board.getField(2, 1).put(blackKnight2);
 
         Bishop whiteBishop1 = new Bishop(true, "whiteBishop");
-        whiteBishop1.setPosition(board.getField(2, 8));
-        board.getField(2, 8).put(whiteBishop1);
+        whiteBishop1.setPosition(board.getField(3, 8));
+        board.getField(3, 8).put(whiteBishop1);
         Bishop whiteBishop2 = new Bishop(true, "whiteBishop");
-        whiteBishop2.setPosition(board.getField(7, 8));
-        board.getField(7, 8).put(whiteBishop2);
+        whiteBishop2.setPosition(board.getField(6, 8));
+        board.getField(6, 8).put(whiteBishop2);
 
         Bishop blackBishop1 = new Bishop(false, "blackBishop");
-        blackBishop1.setPosition(board.getField(7, 1));
-        board.getField(7, 1).put(blackBishop1);
+        blackBishop1.setPosition(board.getField(3, 1));
+        board.getField(6, 1).put(blackBishop1);
         Bishop blackBishop2 = new Bishop(false, "blackBishop");
-        blackBishop2.setPosition(board.getField(2, 1));
-        board.getField(2, 1).put(blackBishop2);
+        blackBishop2.setPosition(board.getField(6, 1));
+        board.getField(3, 1).put(blackBishop2);
 
         Rook whiteRook1 = new Rook(true, "whiteRook");
         whiteRook1.setPosition(board.getField(1, 8));
