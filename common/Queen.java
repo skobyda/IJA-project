@@ -1,3 +1,12 @@
+/**
+ * Queen: Trieda reprezentujuca figurku kralovnej
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
+ */
+
 package ija.ija2018.homework2.common;
 
 import java.util.*;
@@ -7,19 +16,36 @@ public class Queen implements Figure {
     private Field position;
     private String type;
 
+    /**
+     * [konstruktor pre vytvorenie kralovnej]
+     * @param isWhite [farba figurky]
+     * @param typeStr [typ figurky]
+     */
 	public Queen(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
         this.type = typeStr;
     }
 
+    /**
+     * vrati farbu figurky
+     * @return true/false
+     */
 	public boolean isWhite() {
         return isWhite;
     }
 
+    /**
+     * vrati typ figurky
+     * @return blackQueen/whiteQueen
+     */
 	public String getType() {
         return type;
     }
 
+    /**
+     * vrati farbu a poziciu figúrky Kralovnej
+     * @return V[W/B)pos:pos
+     */
     @Override
     public String getState() {
         String color;
@@ -32,16 +58,27 @@ public class Queen implements Figure {
         return "V[" + color + "]" + pos[0] + ":" + pos[1];
     }
 
+    /**
+     * vrati poziciu figurky Kralovnej
+     * @return Field- policko kde sa figurka Kralovnej nachadza
+     */
     @Override
     public Field getPosition() {
         return position;
     }
 
+    /**
+     * zmeni poziciu figurky kralovnej
+     */
     @Override
     public void setPosition(Field field) {
         this.position = field;
     }
 
+    /**
+     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky
+     * @return true/false
+     */
     public boolean canMove(Field moveTo) {
         // Figure did not move
         if (position == null || position.equals(moveTo))
@@ -87,6 +124,10 @@ public class Queen implements Figure {
         return false;
     }
 
+    /**
+     * posunie figurku na zadane policko
+     * @return ture/false
+     */
     @Override
     public boolean move(Field moveTo) {
         if (canMove(moveTo)) {

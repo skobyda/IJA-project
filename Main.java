@@ -1,3 +1,14 @@
+/**
+ * Main: Trieda reprezentujuca program
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
+ */
+
+
+
 package ija.ija2018.homework2;
 
 import javafx.application.Application;
@@ -59,10 +70,19 @@ public class Main extends Application {
     private Board board = new Board(8);
     private Game game = GameFactory.createChessGame(board);
 
+    /**
+     * hlavna cast programu - spustenie hry
+     * @param args argumenty programu
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * vytvorenie hry, okna, aplikacie
+     * @param primaryStage /TODO
+     * @throws Exception /TODO
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
@@ -166,6 +186,10 @@ public class Main extends Application {
         window.show();
     }
 
+    /**
+     * hranie hry - pohyby zo suboru /TODO toto je dobre?
+     * @param file File - subor v ktorom su pohyby ulozene
+     */
     public void playGame(File file) {
         List<String> moves = new ArrayList<String>();
         BufferedReader reader;
@@ -197,6 +221,9 @@ public class Main extends Application {
         animation.play();
     }
 
+    /**
+     * rozmiestnenie figuriek
+     */
     public void spreadFigures() {
         figureGroup.getChildren().clear();
 
@@ -243,6 +270,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * zachytenie erroru
+     * @param event ActionEvent /TODO
+     */
     public void handle(ActionEvent event) {
         if(event.getSource() == buttonBack) {
             moveHistory.remove(0);

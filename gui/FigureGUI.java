@@ -1,3 +1,12 @@
+/**
+ * FigureGUI: Trieda reprezentujuca grafiku figurky
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
+ */
+
 package ija.ija2018.homework2.gui;
 
 import javafx.scene.shape.Ellipse;
@@ -21,6 +30,13 @@ public class FigureGUI extends ImageView {
     private double mouseX, mouseY;
     private double diffX, diffY;
 
+    /**
+     * konstruktor rozhrania figurky - grafika pre figurku
+     * @param figureArg  - figurka ktora bude zobrazena
+     * @param gameArg - hra v ktorej bude grafika pouzita
+     * @param boardArg - doska na ktorej figurka bude
+     * @param sizeArg - velkost dosky
+     */
     public FigureGUI(Figure figureArg, Game gameArg, Board boardArg, int sizeArg) {
         this.figureBackend = figureArg;
         this.gameBackend = gameArg;
@@ -79,6 +95,9 @@ public class FigureGUI extends ImageView {
         */
     }
 
+    /**
+     * zmena pozicie figurky(graficky)
+     */
     public void refreshLocation() {
         int row = figureBackend.getPosition().getRow();
         int col = figureBackend.getPosition().getCol();

@@ -1,3 +1,12 @@
+/**
+ * Board: Trieda reprezentujuca dosku(hracie pole)
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
+ */
+
 package ija.ija2018.homework2.game;
 
 import ija.ija2018.homework2.common.BoardField;
@@ -7,6 +16,10 @@ public class Board {
 	private int size;
     private BoardField[][] field;
 
+    /**
+     * konstruktor pre vytvorenie dosky
+     * @param size velkost pola(size X size)
+     */
 	public Board(int size) {
         this.size = size;
         this.field = new BoardField[size+2][size+2];
@@ -33,10 +46,19 @@ public class Board {
         }
     }
 
+    /**
+     * vrati policko leziace na stlpci s cislom col a riadku s cislom row
+     * @param col cislo stlpca
+     * @param row cislo riadku
+     */
 	public Field getField(int col, int row) {
         return field[row][col];
     }
 
+    /**
+     * vrati velkost dosky
+     * @return velkost dosky
+     */
 	public int getSize() {
         return size;
     }
