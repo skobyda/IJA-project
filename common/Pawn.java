@@ -6,12 +6,12 @@ public class Pawn implements Figure {
 	private boolean isWhite;
     private Field position;
     private String type;
-    private boolean firstMove;
+    private int numOfMoves;
 
 	public Pawn(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
         this.type = typeStr;
-        this.firstMove = true;
+        this.numOfMoves = 0;
     }
 
 	public boolean isWhite() {
@@ -37,6 +37,10 @@ public class Pawn implements Figure {
     @Override
     public Field getPosition() {
         return position;
+    }
+
+    public void decNumOfMoves() {
+        this.numOfMoves--;
     }
 
     @Override
@@ -68,7 +72,7 @@ public class Pawn implements Figure {
         Field field = position;
         int i = 0;
         // Pawn's reach can be 2 if its first move
-        while (((firstMove && i < 2) || i < 1) &&
+        while (((numOfMoves == 0 && i < 2) || i < 1) &&
                field != null &&
                !field.equals(moveTo)) {
             i++;
@@ -96,7 +100,7 @@ public class Pawn implements Figure {
         if (canMove(moveTo)) {
             position.remove(this);
             this.position = moveTo;
-            this.firstMove = false;
+            this.numOfMoves++;
             return moveTo.put(this);
         }
 

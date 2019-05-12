@@ -15,7 +15,7 @@ public class BoardField implements Field {
 	protected Field RDfield;
 	protected Field RUfield;
 	protected Field Ufield;
-    protected Stack<Figure> history; 
+    protected Stack<Figure> history;
 
 	public BoardField(int col, int row) {
         this.col = col;
@@ -42,6 +42,9 @@ public class BoardField implements Field {
         if (figure != null) {
             this.hasDisk = true;
             figure.setPosition(this);
+            figure.decNumOfMoves();
+        } else {
+            this.hasDisk = false;
         }
     }
 
