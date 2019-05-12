@@ -1,4 +1,7 @@
-package project.src.gui;
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ */
+
+package gui;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;

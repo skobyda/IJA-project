@@ -1,3 +1,6 @@
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ */
+
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.animation.KeyFrame;

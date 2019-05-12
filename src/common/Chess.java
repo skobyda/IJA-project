@@ -1,6 +1,9 @@
-package project.src.common;
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ */
 
-import project.src.game.Board;
+package common;
+
+import game.Board;
 import javafx.util.Pair;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -136,6 +139,33 @@ public class Chess implements Game {
         return true;
     }
 
+    public boolean gameOver() {
+        if (isMat())
+            return true;
+
+        int kingCount = 0;
+        // Find position of King
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= size; j++) {
+                Field field = board.getField(i, j);
+
+                if (field.isEmpty())
+                    continue;
+
+                Figure figure = field.get();
+
+                if (figure.getClass().getSimpleName().equals("King")) {
+                    kingCount++;
+                }
+            }
+        }
+
+        if (kingCount != 2)
+            return true;
+
+        return false;
+    }
+
     // Used for calculation of Check or Mat
     private Figure getKing() {
         // Find position of King
@@ -248,7 +278,7 @@ public class Chess implements Game {
 
         int[] position = field.getPosition();
         char col = (char)(position[0] + 96);
-        int row = position[1];
+        int row = 8 + 1 - position[1];
 
         newVal += col;
         newVal += row;
@@ -339,12 +369,23 @@ public class Chess implements Game {
         int col;
         int row;
         if (shortAnnotation) {
+            int colDist = 0;
+            int rowDist = 0;
             // If we have to distinguish figures
-            // if ((annotation.charAt(0) >= '1' && annotation.charAt(0) <= '8') ||
-            //     ((annotation.charAt(0) >= 'a' && annotation.charAt(0) <= 'h') &&
-            //     ((annotation.charAt(1) >= 'a' && annotation.charAt(0) <= 'h'))
-            col = ((int)annotation.charAt(0) - 'a' + 1);
-            row = ((int)annotation.charAt(1) - '0');
+            if ((annotation.charAt(0) >= '1' && annotation.charAt(0) <= '8') ||
+                ((annotation.charAt(0) >= 'a' && annotation.charAt(0) <= 'h') &&
+                (annotation.charAt(1) >= 'a' && annotation.charAt(0) <= 'h'))) {
+                if (annotation.charAt(0) >= '1' && annotation.charAt(0) <= '8')
+                    rowDist = 8 + 1 - ((int)annotation.charAt(0) - '0');
+                else
+                    colDist = ((int)annotation.charAt(0) - 'a' + 1);
+
+                col = ((int)annotation.charAt(1) - 'a' + 1);
+                row = 8 + 1 - ((int)annotation.charAt(2) - '0');
+            } else {
+                col = ((int)annotation.charAt(0) - 'a' + 1);
+                row = 8 + 1 - ((int)annotation.charAt(1) - '0');
+            }
             Field moveTo = board.getField(col, row);
 
             // Find which figure can move to destinatio
@@ -388,6 +429,9 @@ public class Chess implements Game {
 
     @Override
     public boolean move(Figure figure, Field field) {
+        if (gameOver())
+            return false;
+
         boolean capturing = !field.isEmpty();
 
         // Uneven turns are for White, even for black

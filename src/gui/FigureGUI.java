@@ -1,14 +1,17 @@
-package project.src.gui;
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ */
+
+package gui;
 
 import javafx.scene.shape.Ellipse;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import project.src.common.Figure;
-import project.src.common.Field;
-import project.src.common.Game;
-import project.src.game.Board;
+import common.Figure;
+import common.Field;
+import common.Game;
+import game.Board;
 
 public class FigureGUI extends ImageView {
     private Figure figureBackend;
@@ -26,7 +29,7 @@ public class FigureGUI extends ImageView {
         this.gameBackend = gameArg;
         this.boardBackend = boardArg;
         this.size = sizeArg;
-        this.image = new Image("project.src/lib/" + figureArg.getType() + ".png");
+        this.image = new Image(figureArg.getType() + ".png");
 
         setImage(image);
         setFitWidth(size);

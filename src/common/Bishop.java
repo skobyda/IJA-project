@@ -1,4 +1,8 @@
-package project.src.common;
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ * Class implementing Bishop chess figure
+ */
+
+package common;
 
 import java.util.*;
 

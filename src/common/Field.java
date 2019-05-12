@@ -1,4 +1,7 @@
-package project.src.common;
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ */
+
+package common;
 
 public interface Field {
     public static enum Direction {

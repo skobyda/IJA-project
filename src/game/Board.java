@@ -1,7 +1,10 @@
-package project.src.game;
+/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+ */
 
-import project.src.common.BoardField;
-import project.src.common.Field;
+package game;
+
+import common.BoardField;
+import common.Field;
 
 public class Board {
 	private int size;
