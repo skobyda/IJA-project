@@ -17,6 +17,7 @@ public class Chess implements Game {
     protected LinkedList<Field> gamePlayFields;
     protected ArrayList<String> moves;
     protected int annotationIndex = 0;
+    protected boolean shortAnnotation = true;
 
     public Chess(Board board) {
         this.board = board;
@@ -98,9 +99,9 @@ public class Chess implements Game {
     }
 
     @Override
-    public void undo() {
+    public boolean undo() {
         if (turnNum == 1)
-            return;
+            return false;
 
         this.turnNum--;
         Field field1 = movedTo.pop();
@@ -108,6 +109,8 @@ public class Chess implements Game {
 
         field1.undo();
         field2.undo();
+
+        return true;
     }
 
     // Used for calculation of Check or Mat
@@ -262,8 +265,9 @@ public class Chess implements Game {
             for (String annotation : annotations) {
                 Matcher matcher1 = pattern1.matcher(annotation);
                 Matcher matcher2 = pattern2.matcher(annotation);
-                if(!matcher1.matches() && !matcher2.matches())
+                if (!matcher1.matches() && !matcher2.matches())
                     return false;
+                this.shortAnnotation = matcher1.matches();
                 this.moves.add(annotation);
             }
 
@@ -272,6 +276,7 @@ public class Chess implements Game {
         return true;
     }
 
+    // Parse annotation
     public void playGame() {
         String move = moves.get(0);
         moves.remove(move);
@@ -308,30 +313,50 @@ public class Chess implements Game {
                 type = "Pawn";
         }
 
-        int col = ((int)annotation.charAt(0) - 'a' + 1);
-        int row = ((int)annotation.charAt(1) - '0');
+        int col;
+        int row;
+        if (shortAnnotation) {
+            // If we have to distinguish figures
+            // if ((annotation.charAt(0) >= '1' && annotation.charAt(0) <= '8') ||
+            //     ((annotation.charAt(0) >= 'a' && annotation.charAt(0) <= 'h') &&
+            //     ((annotation.charAt(1) >= 'a' && annotation.charAt(0) <= 'h'))
+            col = ((int)annotation.charAt(0) - 'a' + 1);
+            row = ((int)annotation.charAt(1) - '0');
+            Field moveTo = board.getField(col, row);
 
-        Field moveTo = board.getField(col, row);
+            // Find which figure can move to destinatio
+            for (int i = 1; i <= size; i++) {
+                for (int j = 1; j <= size; j++) {
+                    Field field = board.getField(i, j);
 
-        for (int i = 1; i <= size; i++) {
-            for (int j = 1; j <= size; j++) {
-                Field field = board.getField(i, j);
+                    if (field.isEmpty())
+                        continue;
 
-                if (field.isEmpty())
-                    continue;
+                    Figure figure = field.get();
 
-                Figure figure = field.get();
+                    if (figure.isWhite() == (annotationIndex % 2 == 1))
+                        continue;
 
-                if (figure.isWhite() == (annotationIndex % 2 == 1))
-                    continue;
-
-                if (figure.getClass().getSimpleName().equals(type)) {
-                    if (figure.canMove(moveTo))
-                        move(figure, moveTo);
+                    if (figure.getClass().getSimpleName().equals(type)) {
+                        if (figure.canMove(moveTo))
+                            move(figure, moveTo);
+                    }
                 }
             }
+            annotationIndex++;
+        } else {
+            col = ((int)annotation.charAt(0) - 'a' + 1);
+            row = ((int)annotation.charAt(1) - '0');
+            Field moveTo = board.getField(col, row);
+
+            col = ((int)annotation.charAt(2) - 'a' + 1);
+            row = ((int)annotation.charAt(3) - '0');
+            Field moveFrom = board.getField(col, row);
+
+            // TODO moveFrom.isEmpty
+
+            move(moveFrom.get(), moveTo);
         }
-        annotationIndex++;
     }
 
     public int getMovesNum() {

@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser;
 import javafx.scene.*;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -48,11 +49,12 @@ public class Main extends Application {
     private File gameFile = null;
 
     // Toolbar
-    HBox toolbar;
+    private HBox toolbar;
     private Button buttonBack;
-    ChoiceBox<String> choiceBox;
-    Button buttonStart;
-    Button buttonLoadGame;
+    private Button buttonReset;
+    private ChoiceBox<String> choiceBox;
+    private Button buttonStart;
+    private Button buttonLoadGame;
 
     private Board board = new Board(8);
     private Game game = GameFactory.createChessGame(board);
@@ -68,9 +70,23 @@ public class Main extends Application {
 
         spreadFigures();
 
+        // Toolbar -> Reset Button
+        buttonReset = new Button("Reset");
+        buttonReset.setOnAction(e -> {
+            while (game.undo())
+                moveHistory.remove(0);
+            spreadFigures();
+        });
+        buttonReset.setPrefSize(100, 20);
+
         // Toolbar -> Back Button
         buttonBack = new Button("Back");
-        buttonBack.setOnAction(e -> this.handle(e));
+        buttonBack.setOnAction(e -> {
+            if (game.undo()) {
+                moveHistory.remove(0);
+                spreadFigures();
+            }
+        });
         buttonBack.setPrefSize(100, 20);
 
         // Toolbar -> Automatic game Button
@@ -110,7 +126,7 @@ public class Main extends Application {
         toolbar.setPadding(new Insets(15, 12, 15, 12));
         toolbar.setSpacing(10);
         toolbar.setStyle("-fx-background-color: #336699;");
-        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, buttonStart, buttonBack);
+        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, buttonStart, buttonBack, buttonReset);
 
         // Board
         StackPane playGround = new StackPane();
@@ -121,6 +137,21 @@ public class Main extends Application {
         // Move History
         ListView<String> list = new ListView<String>();
         list.setItems(moveHistory);
+        list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // doubleClick
+                if (event.getClickCount() == 2) {
+                    String item = list.getSelectionModel().getSelectedItem();
+                    int index = moveHistory.indexOf(item);
+                    for (int i = 0; i < index; i++) {
+                        if (game.undo())
+                            moveHistory.remove(0);
+                    }
+                    spreadFigures();
+                }
+            }
+        });
 
         // App layout
         BorderPane tmp = new BorderPane();
@@ -214,6 +245,7 @@ public class Main extends Application {
 
     public void handle(ActionEvent event) {
         if(event.getSource() == buttonBack) {
+            moveHistory.remove(0);
             game.undo();
             spreadFigures();
         }
