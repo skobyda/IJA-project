@@ -1,15 +1,14 @@
-package ija.ija2018.homework2.common;
+package project.src.common;
 
 import java.util.*;
 
-public class Queen implements Figure {
+public class Rook implements Figure {
 	private boolean isWhite;
     private Field position;
     private String type;
-    private boolean firstMove;
     private int numOfMoves;
 
-	public Queen(boolean isWhite, String typeStr) {
+	public Rook(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
         this.type = typeStr;
         this.numOfMoves = 0;
@@ -64,22 +63,19 @@ public class Queen implements Figure {
         directions.add(Field.Direction.D);
         directions.add(Field.Direction.L);
         directions.add(Field.Direction.R);
-        directions.add(Field.Direction.RU);
-        directions.add(Field.Direction.RD);
-        directions.add(Field.Direction.LU);
-        directions.add(Field.Direction.LD);
 
         // Try to find the destination in certain direction
         for (Field.Direction dir : directions) {
             Field field = position;
 
-            // Queen is not distance limited, so "Explore" this direction
+            // Rook is not distance limited, so "Explore" this direction
             while (field != null && !field.equals(moveTo)) {
                 field = field.nextField(dir);
 
                 // Out of board
-                if (field == null)
+                if (field == null) {
                     break;
+                }
 
                 // Successfully found the destination field
                 if (field.equals(moveTo))

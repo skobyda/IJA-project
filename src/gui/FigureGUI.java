@@ -1,14 +1,14 @@
-package ija.ija2018.homework2.gui;
+package project.src.gui;
 
 import javafx.scene.shape.Ellipse;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import ija.ija2018.homework2.common.Figure;
-import ija.ija2018.homework2.common.Field;
-import ija.ija2018.homework2.common.Game;
-import ija.ija2018.homework2.game.Board;
+import project.src.common.Figure;
+import project.src.common.Field;
+import project.src.common.Game;
+import project.src.game.Board;
 
 public class FigureGUI extends ImageView {
     private Figure figureBackend;
@@ -26,7 +26,7 @@ public class FigureGUI extends ImageView {
         this.gameBackend = gameArg;
         this.boardBackend = boardArg;
         this.size = sizeArg;
-        this.image = new Image("ija/ija2018/homework2/lib/" + figureArg.getType() + ".png");
+        this.image = new Image("project.src/lib/" + figureArg.getType() + ".png");
 
         setImage(image);
         setFitWidth(size);

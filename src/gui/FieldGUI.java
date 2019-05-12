@@ -1,4 +1,4 @@
-package ija.ija2018.homework2.gui;
+package project.src.gui;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;

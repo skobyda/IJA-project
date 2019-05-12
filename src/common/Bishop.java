@@ -1,14 +1,14 @@
-package ija.ija2018.homework2.common;
+package project.src.common;
 
 import java.util.*;
 
-public class Rook implements Figure {
+public class Bishop implements Figure {
 	private boolean isWhite;
     private Field position;
     private String type;
     private int numOfMoves;
 
-	public Rook(boolean isWhite, String typeStr) {
+	public Bishop(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
         this.type = typeStr;
         this.numOfMoves = 0;
@@ -59,16 +59,16 @@ public class Rook implements Figure {
 
         // List of allowed directions for this figure
         List<Field.Direction> directions = new ArrayList<Field.Direction>();
-        directions.add(Field.Direction.U);
-        directions.add(Field.Direction.D);
-        directions.add(Field.Direction.L);
-        directions.add(Field.Direction.R);
+        directions.add(Field.Direction.LU);
+        directions.add(Field.Direction.LD);
+        directions.add(Field.Direction.RU);
+        directions.add(Field.Direction.RD);
 
         // Try to find the destination in certain direction
         for (Field.Direction dir : directions) {
             Field field = position;
 
-            // Rook is not distance limited, so "Explore" this direction
+            // Bishop is not distance limited, so "Explore" this direction
             while (field != null && !field.equals(moveTo)) {
                 field = field.nextField(dir);
 

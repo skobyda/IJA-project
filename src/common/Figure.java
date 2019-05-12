@@ -1,4 +1,4 @@
-package ija.ija2018.homework2.common;
+package project.src.common;
 
 public interface Figure {
     public boolean isWhite();

@@ -1,15 +1,15 @@
-package ija.ija2018.homework2.common;
+package project.src.common;
 
 import java.util.*;
-import java.lang.Math;
 
-public class Knight implements Figure {
+public class Queen implements Figure {
 	private boolean isWhite;
     private Field position;
     private String type;
+    private boolean firstMove;
     private int numOfMoves;
 
-	public Knight(boolean isWhite, String typeStr) {
+	public Queen(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
         this.type = typeStr;
         this.numOfMoves = 0;
@@ -50,7 +50,7 @@ public class Knight implements Figure {
     }
 
     public boolean canMove(Field moveTo) {
-        // Same position figure is currently on
+        // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
 
@@ -58,12 +58,37 @@ public class Knight implements Figure {
         if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
             return false;
 
-        int[] destPos = moveTo.getPosition();
-        int[] currPos = position.getPosition();
+        // List of allowed directions for this figure
+        List<Field.Direction> directions = new ArrayList<Field.Direction>();
+        directions.add(Field.Direction.U);
+        directions.add(Field.Direction.D);
+        directions.add(Field.Direction.L);
+        directions.add(Field.Direction.R);
+        directions.add(Field.Direction.RU);
+        directions.add(Field.Direction.RD);
+        directions.add(Field.Direction.LU);
+        directions.add(Field.Direction.LD);
 
-        if ((Math.abs(destPos[0] - currPos[0]) == 1 && Math.abs(destPos[1] - currPos[1]) == 2) ||
-            (Math.abs(destPos[0] - currPos[0]) == 2 && Math.abs(destPos[1] - currPos[1]) == 1)) {
-            return true;
+        // Try to find the destination in certain direction
+        for (Field.Direction dir : directions) {
+            Field field = position;
+
+            // Queen is not distance limited, so "Explore" this direction
+            while (field != null && !field.equals(moveTo)) {
+                field = field.nextField(dir);
+
+                // Out of board
+                if (field == null)
+                    break;
+
+                // Successfully found the destination field
+                if (field.equals(moveTo))
+                    return true;
+
+                // Figure is in the way
+                if (!field.isEmpty())
+                    break;
+            }
         }
 
         return false;

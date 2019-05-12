@@ -1,7 +1,7 @@
-package ija.ija2018.homework2.game;
+package project.src.game;
 
-import ija.ija2018.homework2.common.BoardField;
-import ija.ija2018.homework2.common.Field;
+import project.src.common.BoardField;
+import project.src.common.Field;
 
 public class Board {
 	private int size;

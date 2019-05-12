@@ -1,6 +1,6 @@
-package ija.ija2018.homework2.common;
+package project.src.common;
 
-import ija.ija2018.homework2.game.Board;
+import project.src.game.Board;
 import javafx.util.Pair;
 import java.util.*;
 import java.util.regex.Pattern;

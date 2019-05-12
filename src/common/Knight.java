@@ -1,14 +1,15 @@
-package ija.ija2018.homework2.common;
+package project.src.common;
 
 import java.util.*;
+import java.lang.Math;
 
-public class Bishop implements Figure {
+public class Knight implements Figure {
 	private boolean isWhite;
     private Field position;
     private String type;
     private int numOfMoves;
 
-	public Bishop(boolean isWhite, String typeStr) {
+	public Knight(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
         this.type = typeStr;
         this.numOfMoves = 0;
@@ -49,7 +50,7 @@ public class Bishop implements Figure {
     }
 
     public boolean canMove(Field moveTo) {
-        // Figure did not move
+        // Same position figure is currently on
         if (position == null || position.equals(moveTo))
             return false;
 
@@ -57,34 +58,12 @@ public class Bishop implements Figure {
         if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
             return false;
 
-        // List of allowed directions for this figure
-        List<Field.Direction> directions = new ArrayList<Field.Direction>();
-        directions.add(Field.Direction.LU);
-        directions.add(Field.Direction.LD);
-        directions.add(Field.Direction.RU);
-        directions.add(Field.Direction.RD);
+        int[] destPos = moveTo.getPosition();
+        int[] currPos = position.getPosition();
 
-        // Try to find the destination in certain direction
-        for (Field.Direction dir : directions) {
-            Field field = position;
-
-            // Bishop is not distance limited, so "Explore" this direction
-            while (field != null && !field.equals(moveTo)) {
-                field = field.nextField(dir);
-
-                // Out of board
-                if (field == null) {
-                    break;
-                }
-
-                // Successfully found the destination field
-                if (field.equals(moveTo))
-                    return true;
-
-                // Figure is in the way
-                if (!field.isEmpty())
-                    break;
-            }
+        if ((Math.abs(destPos[0] - currPos[0]) == 1 && Math.abs(destPos[1] - currPos[1]) == 2) ||
+            (Math.abs(destPos[0] - currPos[0]) == 2 && Math.abs(destPos[1] - currPos[1]) == 1)) {
+            return true;
         }
 
         return false;

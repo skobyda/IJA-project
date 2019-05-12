@@ -1,5 +1,3 @@
-package ija.ija2018.homework2;
-
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.animation.KeyFrame;
@@ -32,13 +30,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import ija.ija2018.homework2.gui.FieldGUI;
-import ija.ija2018.homework2.gui.FieldLabelGUI;
-import ija.ija2018.homework2.gui.FigureGUI;
-import ija.ija2018.homework2.common.Field;
-import ija.ija2018.homework2.common.Figure;
-import ija.ija2018.homework2.common.Game;
-import ija.ija2018.homework2.game.Board;
+import gui.*;
+import common.*;
+import game.*;
 
 public class Main extends Application {
 
