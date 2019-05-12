@@ -42,8 +42,7 @@ public class King implements Figure {
         this.position = field;
     }
 
-    @Override
-    public boolean move(Field moveTo) {
+    public boolean canMove(Field moveTo) {
         // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
@@ -68,11 +67,19 @@ public class King implements Figure {
             Field field = position.nextField(dir);
 
             // Successfully found the destination field
-            if (field != null && field.equals(moveTo)) {
-                position.remove(this);
-                this.position = moveTo;
-                return moveTo.put(this);
-            }
+            if (field != null && field.equals(moveTo))
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean move(Field moveTo) {
+        if (canMove(moveTo)) {
+            position.remove(this);
+            this.position = moveTo;
+            return moveTo.put(this);
         }
 
         return false;

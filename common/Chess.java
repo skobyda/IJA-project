@@ -1,7 +1,10 @@
 package ija.ija2018.homework2.common;
 
 import ija.ija2018.homework2.game.Board;
+import javafx.util.Pair;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Chess implements Game {
     protected Board board;
@@ -9,6 +12,11 @@ public class Chess implements Game {
     protected Stack<Field> movedFrom;
     protected Stack<Field> movedTo;
     protected int turnNum;
+    protected String lastMove;
+    protected LinkedList<Figure> gamePlayFigures;
+    protected LinkedList<Field> gamePlayFields;
+    protected ArrayList<String> moves;
+    protected int annotationIndex = 0;
 
     public Chess(Board board) {
         this.board = board;
@@ -16,6 +24,9 @@ public class Chess implements Game {
         this.movedFrom = new Stack<Field>();
         this.movedTo = new Stack<Field>();
         this.turnNum = 1;
+        this.gamePlayFigures = new LinkedList<Figure>();
+        this.gamePlayFields = new LinkedList<Field>();
+        this.moves = new ArrayList<String>();
 
         for(int i = 1; i <= size; i++) {
             Pawn whitePawn = new Pawn(true, "whitePawn");
@@ -99,8 +110,236 @@ public class Chess implements Game {
         field2.undo();
     }
 
+    // Used for calculation of Check or Mat
+    private Figure getKing() {
+        // Find position of King
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= size; j++) {
+                Field field = board.getField(i, j);
+
+                if (field.isEmpty())
+                    continue;
+
+                Figure figure = field.get();
+
+                if (figure.isWhite() != (turnNum % 2 == 1))
+                    continue;
+
+                if (figure.getClass().getSimpleName().equals("King")) {
+                    return figure;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isPositionThreatened(Field threatenedPosition) {
+        // Iterate over every enemy figure and see if any threatens given field
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= size; j++) {
+                Field field = board.getField(i, j);
+
+                if (field.isEmpty())
+                    continue;
+
+                Figure figure = field.get();
+
+                if (figure.isWhite() == (turnNum % 2 == 1))
+                    continue;
+
+                if (figure.canMove(threatenedPosition))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isMat() {
+        if (!isCheck())
+            return false;
+
+        // Find position of King
+        Figure king = getKing();
+
+        // TODO delete later
+        if (king == null)
+            return false;
+
+        Field kingPosition = king.getPosition();
+
+        // Find every position where king can move
+        for (Field.Direction dir : Field.Direction.values()) {
+            Field nextPosition = kingPosition.nextField(dir);
+
+            if (nextPosition != null && king.canMove(nextPosition)) {
+                if (!isPositionThreatened(nextPosition))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isCheck() {
+        // Find position of King
+        Figure king = getKing();
+
+        // TODO delete later
+        if (king == null)
+            return false;
+
+        return isPositionThreatened(king.getPosition());
+    }
+
+    private void updateLastMove(Figure figure, Field field, boolean capturing) {
+        String newVal;
+
+        String type = figure.getClass().getSimpleName();
+        switch(type) {
+            case "King":
+                newVal = "K";
+                break;
+            case "Queen":
+                newVal = "D";
+                break;
+            case "Rook":
+                newVal = "B";
+                break;
+            case "Bishop":
+                newVal = "S";
+                break;
+            case "Knight":
+                newVal = "J";
+                break;
+            default:
+                newVal = "";
+        }
+
+        if (capturing)
+            newVal += "x";
+
+        int[] position = field.getPosition();
+        char col = (char)(position[0] + 96);
+        int row = position[1];
+
+        newVal += col;
+        newVal += row;
+
+        if (isMat())
+            newVal += "#";
+        else if (isCheck())
+            newVal += "+";
+
+        this.lastMove = newVal;
+    }
+
+    @Override
+    public String getLastMove() {
+        return lastMove;
+    }
+
+    public boolean checkNotation(List<String> moves) {
+        for(String move : moves) {
+            String[] strs = move.split("\\.");
+
+            if (strs == null || strs.length != 2)
+                return false;
+
+            strs[1] = strs[1].substring(1);
+
+            String[] annotations = strs[1].split(" ");
+            if (annotations.length != 1 && annotations.length != 2)
+                return false;
+
+            String patternString = "[KDVSJ]?x?[a-h][1-8][KDVSJ]?[+#]?";
+
+            Pattern pattern = Pattern.compile(patternString);
+
+            for (String annotation : annotations) {
+                Matcher matcher = pattern.matcher(annotation);
+                if(!matcher.matches())
+                    return false;
+                this.moves.add(annotation);
+            }
+
+        }
+
+        return true;
+    }
+
+    public void playGame() {
+        System.out.println("CAV");
+        String move = moves.get(0);
+        moves.remove(move);
+
+        String annotation = move;
+        annotation = annotation.replace("x", "");
+        annotation = annotation.replace("+", "");
+        annotation = annotation.replace("#", "");
+
+        String type;
+        char c = annotation.charAt(0);
+        switch(c) {
+            case 'K':
+                type = "King";
+                annotation = annotation.substring(1);
+                break;
+            case 'D':
+                type = "Queen";
+                annotation = annotation.substring(1);
+                break;
+            case 'V':
+                type = "Rook";
+                annotation = annotation.substring(1);
+                break;
+            case 'S':
+                type = "Bishop";
+                annotation = annotation.substring(1);
+                break;
+            case 'J':
+                type = "Knight";
+                annotation = annotation.substring(1);
+                break;
+            default:
+                type = "Pawn";
+        }
+
+        int col = ((int)annotation.charAt(0) - 'a' + 1);
+        int row = ((int)annotation.charAt(1) - '0');
+
+        Field moveTo = board.getField(col, row);
+
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= size; j++) {
+                Field field = board.getField(i, j);
+
+                if (field.isEmpty())
+                    continue;
+
+                Figure figure = field.get();
+
+                if (figure.isWhite() == (annotationIndex % 2 == 1))
+                    continue;
+
+                if (figure.getClass().getSimpleName().equals(type)) {
+                    if (figure.canMove(moveTo))
+                        move(figure, moveTo);
+                }
+            }
+        }
+        annotationIndex++;
+    }
+
+    public int getMovesNum() {
+        return moves.size();
+    }
+
     @Override
     public boolean move(Figure figure, Field field) {
+        boolean capturing = !field.isEmpty();
+
         // Uneven turns are for White, even for black
         if (figure.isWhite() != (turnNum % 2 == 1))
             return false;
@@ -111,6 +350,7 @@ public class Chess implements Game {
             // store new position
             movedTo.push(field);
             this.turnNum++;
+            updateLastMove(figure, field, capturing);
             return true;
         } else {
             movedFrom.pop();

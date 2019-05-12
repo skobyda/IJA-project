@@ -44,13 +44,11 @@ public class Pawn implements Figure {
         this.position = field;
     }
 
-    @Override
-    public boolean move(Field moveTo) {
+    public boolean canMove(Field moveTo) {
         // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
 
-        System.out.println(position);
         Figure figureToCapture = moveTo.get();
         // There is a figure on destination Field, so we want to capture it
         if (figureToCapture != null) {
@@ -60,16 +58,8 @@ public class Pawn implements Figure {
 
             Field field1 = position.nextField(isWhite ? Field.Direction.LD : Field.Direction.LU);
             Field field2 = position.nextField(isWhite ? Field.Direction.RD : Field.Direction.RU);
-            System.out.println(field1.get());
-            System.out.println(field2.get());
-            System.out.println(figureToCapture);
-
-            if (field1.equals(moveTo) || field2.equals(moveTo)) {
-                position.remove(this);
-                this.position = moveTo;
-                this.firstMove = false;
-                return moveTo.put(this);
-            }
+            if ((field1 != null && field1.equals(moveTo)) || (field2 != null && field2.equals(moveTo)))
+                return true;
 
             return false;
         }
@@ -90,16 +80,24 @@ public class Pawn implements Figure {
             }
 
             // Successfully found the destination field
-            if (field.equals(moveTo)) {
-                position.remove(this);
-                this.position = moveTo;
-                this.firstMove = false;
-                return moveTo.put(this);
-            }
+            if (field.equals(moveTo))
+                return true;
 
             // Figure is in the way
             if (!field.isEmpty())
                 break;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean move(Field moveTo) {
+        if (canMove(moveTo)) {
+            position.remove(this);
+            this.position = moveTo;
+            this.firstMove = false;
+            return moveTo.put(this);
         }
 
         return false;

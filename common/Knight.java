@@ -43,9 +43,8 @@ public class Knight implements Figure {
         this.position = field;
     }
 
-    @Override
-    public boolean move(Field moveTo) {
-        // Figure did not move
+    public boolean canMove(Field moveTo) {
+        // Same position figure is currently on
         if (position == null || position.equals(moveTo))
             return false;
 
@@ -58,6 +57,15 @@ public class Knight implements Figure {
 
         if ((Math.abs(destPos[0] - currPos[0]) == 1 && Math.abs(destPos[1] - currPos[1]) == 2) ||
             (Math.abs(destPos[0] - currPos[0]) == 2 && Math.abs(destPos[1] - currPos[1]) == 1)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean move(Field moveTo) {
+        if (canMove(moveTo)) {
             position.remove(this);
             this.position = moveTo;
             return moveTo.put(this);

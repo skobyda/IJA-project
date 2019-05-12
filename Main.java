@@ -1,14 +1,25 @@
 package ija.ija2018.homework2;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 // import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.ListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.scene.*;
+import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 import ija.ija2018.homework2.gui.FieldGUI;
 import ija.ija2018.homework2.gui.FigureGUI;
@@ -23,6 +34,7 @@ public class Main extends Application {
 
     private Group fieldGroup = new Group();
     private Group figureGroup = new Group();
+    private ObservableList<String> moveHistory = FXCollections.observableArrayList();
     private Button button;
 
     private Board board = new Board(8);
@@ -46,26 +58,62 @@ public class Main extends Application {
         StackPane layout = new StackPane();
         layout.getChildren().addAll(fieldGroup, figureGroup);
 
-        AnchorPane tmp = new AnchorPane();
-        tmp.setTopAnchor(layout, 0.0);
-        tmp.setBottomAnchor(button, 0.0);
-        tmp.getChildren().addAll(layout, button);
+        ListView<String> list = new ListView<String>();
+        list.setItems(moveHistory);
 
-        Scene scene = new Scene(tmp, 400, 450);
+        BorderPane tmp = new BorderPane();
+        tmp.setLeft(layout);
+        tmp.setBottom(button);
+        tmp.setRight(list);
+        // tmp.getChildren().addAll(layout, button);
+
+        Scene scene = new Scene(tmp, 600, 450);
 
         window.setScene(scene);
+
         window.show();
+
+        playGame("ija/ija2018/homework2/testInput");
+    }
+
+    public void playGame(String file) {
+        List<String> moves = new ArrayList<String>();
+        BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+			while (line != null) {
+                moves.add(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        game.checkNotation(moves);
+
+        Timeline animation = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                game.playGame();
+                moveHistory.add(0, game.getLastMove());
+                spreadFigures();
+            }
+        }));
+        animation.setCycleCount(game.getMovesNum());
+        animation.play();
     }
 
     public void spreadFigures() {
         figureGroup.getChildren().clear();
 
-        for (int col = 0; col < 8; col++) {
-            for (int row = 0; row < 8; row++) {
+        for (int col = 1; col <= 8; col++) {
+            for (int row = 1; row <= 8; row++) {
                 FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
                 fieldGroup.getChildren().add(field);
 
-                Figure figureBackend = board.getField(col + 1, row + 1).get();
+                Figure figureBackend = board.getField(col, row).get();
                 if (figureBackend != null) {
                     FigureGUI figure = new FigureGUI(figureBackend, game, board, 50);
 
@@ -84,7 +132,8 @@ public class Main extends Application {
                             newY = 8;
 
                         Field newField = board.getField(newX, newY);
-                        game.move(figureBackend, newField);
+                        if (game.move(figureBackend, newField) == true)
+                            moveHistory.add(0, game.getLastMove());
 
                         spreadFigures();
                     });

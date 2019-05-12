@@ -42,8 +42,7 @@ public class Queen implements Figure {
         this.position = field;
     }
 
-    @Override
-    public boolean move(Field moveTo) {
+    public boolean canMove(Field moveTo) {
         // Figure did not move
         if (position == null || position.equals(moveTo))
             return false;
@@ -72,21 +71,28 @@ public class Queen implements Figure {
                 field = field.nextField(dir);
 
                 // Out of board
-                if (field == null) {
+                if (field == null)
                     break;
-                }
 
                 // Successfully found the destination field
-                if (field.equals(moveTo)) {
-                    position.remove(this);
-                    this.position = moveTo;
-                    return moveTo.put(this);
-                }
+                if (field.equals(moveTo))
+                    return true;
 
                 // Figure is in the way
                 if (!field.isEmpty())
                     break;
             }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean move(Field moveTo) {
+        if (canMove(moveTo)) {
+            position.remove(this);
+            this.position = moveTo;
+            return moveTo.put(this);
         }
 
         return false;
