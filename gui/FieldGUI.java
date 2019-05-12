@@ -8,7 +8,7 @@ public class FieldGUI extends Rectangle {
     protected int row;
     protected int size;
 
-    public FieldGUI(boolean white, int column, int row, int size) {
+    public FieldGUI(boolean white, int row, int column, int size) {
         this.col = column;
         this.row = row;
         this.size = size;
@@ -16,7 +16,7 @@ public class FieldGUI extends Rectangle {
         setWidth(size);
         setHeight(size);
 
-        relocate(row * size, column * size);
+        relocate(col * size, row * size);
 
         setFill(white ? Color.valueOf("#fff") : Color.valueOf("#666"));
     }

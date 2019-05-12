@@ -30,11 +30,12 @@ public class FigureGUI extends ImageView {
 
         setImage(image);
         setFitWidth(size);
+        setFitHeight(size);
 
         int col = figureArg.getPosition().getCol();
         int row = figureArg.getPosition().getRow();
 
-        relocate(row * size, col * size);
+        relocate(row * size, col * size );
 
         setOnMousePressed(e -> {
             toFront();
@@ -63,7 +64,7 @@ public class FigureGUI extends ImageView {
             else if (newY > 400)
                 newY = 400;
 
-            relocate(newX, newY);
+            relocate(newX , newY );
         });
 
         /* setOnMouseReleased(e -> {
@@ -82,6 +83,6 @@ public class FigureGUI extends ImageView {
         int row = figureBackend.getPosition().getRow();
         int col = figureBackend.getPosition().getCol();
 
-        relocate(row * size, col * size);
+        relocate(row * size , col * size );
     }
 }

@@ -7,10 +7,13 @@ import javafx.animation.Timeline;
 // import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
@@ -20,6 +23,7 @@ import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
@@ -27,6 +31,7 @@ import java.io.IOException;
 import java.util.*;
 
 import ija.ija2018.homework2.gui.FieldGUI;
+import ija.ija2018.homework2.gui.FieldLabelGUI;
 import ija.ija2018.homework2.gui.FigureGUI;
 import ija.ija2018.homework2.common.Field;
 import ija.ija2018.homework2.common.Figure;
@@ -110,6 +115,8 @@ public class Main extends Application {
         // Board
         StackPane playGround = new StackPane();
         playGround.getChildren().addAll(fieldGroup, figureGroup);
+        playGround.setAlignment(fieldGroup, Pos.TOP_RIGHT);
+        playGround.setAlignment(figureGroup, Pos.TOP_RIGHT);
 
         // Move History
         ListView<String> list = new ListView<String>();
@@ -118,10 +125,10 @@ public class Main extends Application {
         // App layout
         BorderPane tmp = new BorderPane();
         tmp.setLeft(playGround);
-        tmp.setBottom(toolbar);
+        tmp.setTop(toolbar);
         tmp.setRight(list);
 
-        Scene scene = new Scene(tmp, 800, 470);
+        Scene scene = new Scene(tmp, 800, 510);
 
         window.setScene(scene);
 
@@ -148,8 +155,10 @@ public class Main extends Application {
         Timeline animation = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                // next automated Move
                 game.playGame();
                 moveHistory.add(0, game.getLastMove());
+                // refresh GUI
                 spreadFigures();
             }
         }));
@@ -160,37 +169,44 @@ public class Main extends Application {
     public void spreadFigures() {
         figureGroup.getChildren().clear();
 
-        for (int col = 1; col <= 8; col++) {
-            for (int row = 1; row <= 8; row++) {
-                FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
-                fieldGroup.getChildren().add(field);
+        for (int col = 0; col <= 8; col++) {
+            for (int row = 0; row <= 8; row++) {
+                if (col > 0 && row < 8) {
+                    FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
+                    fieldGroup.getChildren().add(field);
 
-                Figure figureBackend = board.getField(col, row).get();
-                if (figureBackend != null) {
-                    FigureGUI figure = new FigureGUI(figureBackend, game, board, 50);
+                    Figure figureBackend = board.getField(col, row + 1).get();
 
-                    figure.setOnMouseReleased(e -> {
-                        int newX = (int) e.getSceneX() / 50 + 1;
-                        int newY = (int) e.getSceneY() / 50 + 1;
+                    if (figureBackend != null) {
+                        FigureGUI figure = new FigureGUI(figureBackend, game, board, 50);
 
-                        if (newX < 1)
-                            newX = 1;
-                        else if (newX > 8)
-                            newX = 8;
+                        figure.setOnMouseReleased(e -> {
+                            int newX = (int) e.getSceneX() / 50;
+                            int newY = (int) e.getSceneY() / 50;
 
-                        if (newY < 1)
-                            newY = 1;
-                        else if (newY > 8)
-                            newY = 8;
+                            if (newX < 1)
+                                newX = 1;
+                            else if (newX > 8)
+                                newX = 8;
 
-                        Field newField = board.getField(newX, newY);
-                        if (game.move(figureBackend, newField) == true)
-                            moveHistory.add(0, game.getLastMove());
+                            if (newY < 1)
+                                newY = 1;
+                            else if (newY > 8)
+                                newY = 8;
 
-                        spreadFigures();
-                    });
+                            Field newField = board.getField(newX, newY);
+                            if (game.move(figureBackend, newField) == true)
+                                moveHistory.add(0, game.getLastMove());
 
-                    figureGroup.getChildren().add(figure);
+                            spreadFigures();
+                        });
+
+                        figureGroup.getChildren().add(figure);
+                    }
+                } else {
+                    FieldLabelGUI label = new FieldLabelGUI((col + row) % 2 == 0, row, col, 50);
+
+                    fieldGroup.getChildren().add(label);
                 }
             }
         }

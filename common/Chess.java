@@ -253,13 +253,16 @@ public class Chess implements Game {
             if (annotations.length != 1 && annotations.length != 2)
                 return false;
 
-            String patternString = "[KDVSJ]?x?[a-h][1-8][KDVSJ]?[+#]?";
+            String patternString1 = "[KDVSJ]?x?[a-h][1-8][KDVSJ]?[+#]?";
+            String patternString2 = "[KDVSJ]?x?[a-h][1-8][a-h][1-8][KDVSJ]?[+#]?";
 
-            Pattern pattern = Pattern.compile(patternString);
+            Pattern pattern1 = Pattern.compile(patternString1);
+            Pattern pattern2 = Pattern.compile(patternString2);
 
             for (String annotation : annotations) {
-                Matcher matcher = pattern.matcher(annotation);
-                if(!matcher.matches())
+                Matcher matcher1 = pattern1.matcher(annotation);
+                Matcher matcher2 = pattern2.matcher(annotation);
+                if(!matcher1.matches() && !matcher2.matches())
                     return false;
                 this.moves.add(annotation);
             }
