@@ -6,18 +6,23 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 // import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import javafx.scene.*;
 import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -35,7 +40,14 @@ public class Main extends Application {
     private Group fieldGroup = new Group();
     private Group figureGroup = new Group();
     private ObservableList<String> moveHistory = FXCollections.observableArrayList();
-    private Button button;
+    private File gameFile = null;
+
+    // Toolbar
+    HBox toolbar;
+    private Button buttonBack;
+    ChoiceBox<String> choiceBox;
+    Button buttonStart;
+    Button buttonLoadGame;
 
     private Board board = new Board(8);
     private Game game = GameFactory.createChessGame(board);
@@ -51,32 +63,72 @@ public class Main extends Application {
 
         spreadFigures();
 
-        button = new Button();
-        button.setText("Undo");
-        button.setOnAction(e -> this.handle(e));
+        // Toolbar -> Back Button
+        buttonBack = new Button("Back");
+        buttonBack.setOnAction(e -> this.handle(e));
+        buttonBack.setPrefSize(100, 20);
 
-        StackPane layout = new StackPane();
-        layout.getChildren().addAll(fieldGroup, figureGroup);
+        // Toolbar -> Automatic game Button
+        choiceBox = new ChoiceBox<String>(
+            FXCollections.observableArrayList("Manual", "Automatic")
+        );
+        choiceBox.getSelectionModel().selectFirst();
+        choiceBox.setOnAction(e -> {
+            String value = (String) choiceBox.getValue();
+            if (value.equals("Automatic")) {
+                buttonStart.setDisable(false);
+                buttonLoadGame.setDisable(false);
+            } else {
+                buttonStart.setDisable(true);
+                buttonLoadGame.setDisable(true);
+            }
+        });
 
+        // Toolbar -> Start button
+        buttonStart = new Button("Start");
+        buttonStart.setOnAction(e -> {
+            playGame(gameFile);
+        });
+        buttonStart.setDisable(true);
+
+        // Toolbar -> Load game Button
+        buttonLoadGame = new Button("Select File");
+        buttonLoadGame.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            gameFile = fileChooser.showOpenDialog(primaryStage);
+            buttonStart.setDisable(false);
+        });
+        buttonLoadGame.setDisable(true);
+
+        // Toolbar
+        toolbar = new HBox();
+        toolbar.setPadding(new Insets(15, 12, 15, 12));
+        toolbar.setSpacing(10);
+        toolbar.setStyle("-fx-background-color: #336699;");
+        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, buttonStart, buttonBack);
+
+        // Board
+        StackPane playGround = new StackPane();
+        playGround.getChildren().addAll(fieldGroup, figureGroup);
+
+        // Move History
         ListView<String> list = new ListView<String>();
         list.setItems(moveHistory);
 
+        // App layout
         BorderPane tmp = new BorderPane();
-        tmp.setLeft(layout);
-        tmp.setBottom(button);
+        tmp.setLeft(playGround);
+        tmp.setBottom(toolbar);
         tmp.setRight(list);
-        // tmp.getChildren().addAll(layout, button);
 
-        Scene scene = new Scene(tmp, 600, 450);
+        Scene scene = new Scene(tmp, 800, 470);
 
         window.setScene(scene);
 
         window.show();
-
-        playGame("ija/ija2018/homework2/testInput");
     }
 
-    public void playGame(String file) {
+    public void playGame(File file) {
         List<String> moves = new ArrayList<String>();
         BufferedReader reader;
 		try {
@@ -145,7 +197,7 @@ public class Main extends Application {
     }
 
     public void handle(ActionEvent event) {
-        if(event.getSource() == button) {
+        if(event.getSource() == buttonBack) {
             game.undo();
             spreadFigures();
         }

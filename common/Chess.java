@@ -270,7 +270,6 @@ public class Chess implements Game {
     }
 
     public void playGame() {
-        System.out.println("CAV");
         String move = moves.get(0);
         moves.remove(move);
 
