@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.BorderPane;
@@ -46,26 +45,19 @@ public class Main extends Application {
 
     private Group fieldGroup = new Group();
     private Group figureGroup = new Group();
-    private ObservableList<String> moveHistory = FXCollections.observableArrayList("START");
+    private ObservableList<String> moveHistory = FXCollections.observableArrayList();
     private File gameFile = null;
 
     // Toolbar
     private HBox toolbar;
     private Button buttonBack;
-    private Button buttonForward;
     private Button buttonReset;
     private ChoiceBox<String> choiceBox;
     private Button buttonStart;
     private Button buttonLoadGame;
-    private TextField delayInput;
-
-    private ListView<String> list;
 
     private Board board = new Board(8);
     private Game game = GameFactory.createChessGame(board);
-
-    private int moveCount = 0;
-    private int currentMove = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -81,37 +73,18 @@ public class Main extends Application {
         // Toolbar -> Reset Button
         buttonReset = new Button("Reset");
         buttonReset.setOnAction(e -> {
-            while (game.undo()) {
+            while (game.undo())
                 moveHistory.remove(0);
-                this.currentMove--;
-            }
             spreadFigures();
         });
         buttonReset.setPrefSize(100, 20);
-
-        // Toolbar -> Delay input
-        delayInput = new TextField();
-        delayInput.setText("Delay input (ms)");
-
-        // Toolbar -> Forward Button
-        buttonForward = new Button("Forward");
-        buttonForward.setOnAction(e -> {
-            if (game.redo()) {
-                // moveHistory.remove(0);
-                spreadFigures();
-                this.currentMove++;
-                list.getSelectionModel().select(moveCount - currentMove);
-            }
-        });
-        buttonForward.setPrefSize(100, 20);
 
         // Toolbar -> Back Button
         buttonBack = new Button("Back");
         buttonBack.setOnAction(e -> {
             if (game.undo()) {
+                moveHistory.remove(0);
                 spreadFigures();
-                this.currentMove--;
-                list.getSelectionModel().select(moveCount - currentMove);
             }
         });
         buttonBack.setPrefSize(100, 20);
@@ -153,7 +126,7 @@ public class Main extends Application {
         toolbar.setPadding(new Insets(15, 12, 15, 12));
         toolbar.setSpacing(10);
         toolbar.setStyle("-fx-background-color: #336699;");
-        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, delayInput, buttonStart, buttonBack, buttonForward, buttonReset);
+        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, buttonStart, buttonBack, buttonReset);
 
         // Board
         StackPane playGround = new StackPane();
@@ -162,24 +135,22 @@ public class Main extends Application {
         playGround.setAlignment(figureGroup, Pos.TOP_RIGHT);
 
         // Move History
-        list = new ListView<String>();
+        ListView<String> list = new ListView<String>();
         list.setItems(moveHistory);
-        list.setOnMouseClicked(e -> {
-                String item = list.getSelectionModel().getSelectedItem();
-                int desiredMove = moveCount - moveHistory.indexOf(item);
-
-                if (currentMove > desiredMove) {
-                    System.out.println("desired" + desiredMove);
-                    System.out.println("current" + currentMove);
-                    while (currentMove != desiredMove && game.undo())
-                        this.currentMove--;
-                } else if (currentMove < desiredMove) {
-                    System.out.println("desired" + desiredMove);
-                    System.out.println("current" + currentMove);
-                    while (currentMove != desiredMove && game.redo())
-                        this.currentMove++;
+        list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // doubleClick
+                if (event.getClickCount() == 2) {
+                    String item = list.getSelectionModel().getSelectedItem();
+                    int index = moveHistory.indexOf(item);
+                    for (int i = 0; i < index; i++) {
+                        if (game.undo())
+                            moveHistory.remove(0);
+                    }
+                    spreadFigures();
                 }
-                spreadFigures();
+            }
         });
 
         // App layout
@@ -212,14 +183,7 @@ public class Main extends Application {
 
         game.checkNotation(moves);
 
-        int delay;
-		try {
-            delay = Integer.parseInt(delayInput.getText());
-		} catch (NumberFormatException e) {
-            delay = 500;
-            delayInput.setText("500");
-		}
-        Timeline animation = new Timeline(new KeyFrame(Duration.seconds(delay / 1000.0), new EventHandler<ActionEvent>() {
+        Timeline animation = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 // next automated Move
@@ -239,7 +203,7 @@ public class Main extends Application {
         for (int col = 0; col <= 8; col++) {
             for (int row = 0; row <= 8; row++) {
                 if (col > 0 && row < 8) {
-                    FieldGUI field = new FieldGUI((col + row) % 2 == 1, row, col, 50);
+                    FieldGUI field = new FieldGUI((col + row) % 2 == 0, row, col, 50);
                     fieldGroup.getChildren().add(field);
 
                     Figure figureBackend = board.getField(col, row + 1).get();
@@ -262,11 +226,8 @@ public class Main extends Application {
                                 newY = 8;
 
                             Field newField = board.getField(newX, newY);
-                            if (game.move(figureBackend, newField) == true) {
+                            if (game.move(figureBackend, newField) == true)
                                 moveHistory.add(0, game.getLastMove());
-                                this.currentMove++;
-                                this.moveCount = currentMove;
-                            }
 
                             spreadFigures();
                         });

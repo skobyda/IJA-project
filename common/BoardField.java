@@ -42,9 +42,6 @@ public class BoardField implements Field {
         if (figure != null) {
             this.hasDisk = true;
             figure.setPosition(this);
-            figure.decNumOfMoves();
-        } else {
-            this.hasDisk = false;
         }
     }
 
