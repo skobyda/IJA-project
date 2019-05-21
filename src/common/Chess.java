@@ -120,7 +120,7 @@ public class Chess implements Game {
      * @return bool
      */
     public boolean redo() {
-        if (redoMoveTo.empty() || redoMoveWho.empty())
+        if (redoMoveWho.empty() || redoMoveTo.empty())
             return false;
 
         Field field = redoMoveTo.pop();
@@ -338,8 +338,9 @@ public class Chess implements Game {
      * @param moves /TODO
      * @return bool
      */
-    public boolean checkNotation(List<String> moves) {
-        for(String move : moves) {
+    public boolean checkNotation(List<String> movesFile) {
+        moves.clear();
+        for(String move : movesFile) {
             String[] strs = move.split("\\.");
 
             if (strs == null || strs.length != 2)

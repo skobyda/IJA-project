@@ -95,8 +95,10 @@ public class Knight implements Figure {
             return false;
 
         // Do not capture piece of same color
-        if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
-            return false;
+        if (moveTo.get() != null ) {
+            if (moveTo.get().isWhite() == isWhite)
+                return false;
+        }
 
         int[] destPos = moveTo.getPosition();
         int[] currPos = position.getPosition();

@@ -77,10 +77,12 @@ public class Main extends Application {
         // Toolbar -> Reset Button
         buttonReset = new Button("Reset");
         buttonReset.setOnAction(e -> {
-            while (game.undo()) {
-                moveHistory.remove(0);
-                this.currentMove--;
-            }
+            this.board = new Board(8);
+            this.game = GameFactory.createChessGame(board);
+            this.moveHistory.clear();
+            moveHistory.add(0, "START");
+            this.currentMove = 0;
+            this.moveCount = 0;
             spreadFigures();
         });
         buttonReset.setPrefSize(100, 20);
@@ -173,13 +175,9 @@ public class Main extends Application {
                 int desiredMove = moveCount - moveHistory.indexOf(item);
 
                 if (currentMove > desiredMove) {
-                    System.out.println("desired" + desiredMove);
-                    System.out.println("current" + currentMove);
                     while (currentMove != desiredMove && game.undo())
                         this.currentMove--;
                 } else if (currentMove < desiredMove) {
-                    System.out.println("desired" + desiredMove);
-                    System.out.println("current" + currentMove);
                     while (currentMove != desiredMove && game.redo())
                         this.currentMove++;
                 }
@@ -235,7 +233,6 @@ public class Main extends Application {
                 spreadFigures();
             }
         }));
-        System.out.println(currentMove);
         animation.setCycleCount(game.getMovesNum());
         animation.play();
     }
