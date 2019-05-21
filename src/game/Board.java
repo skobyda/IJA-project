@@ -1,4 +1,10 @@
-/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+/**
+ * Board: Trieda reprezentujuca dosku(hracie pole)
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
  */
 
 package game;
@@ -10,6 +16,10 @@ public class Board {
 	private int size;
     private BoardField[][] field;
 
+    /**
+     * konstruktor pre vytvorenie dosky
+     * @param size velkost pola(size X size)
+     */
 	public Board(int size) {
         this.size = size;
         this.field = new BoardField[size+2][size+2];
@@ -36,10 +46,20 @@ public class Board {
         }
     }
 
+    /**
+     * vrati policko leziace na stlpci s cislom col a riadku s cislom row
+     * @param col cislo stlpca
+     * @param row cislo riadku
+     * @return Field - policka na pozadovanom riadku a stlpci
+     */
 	public Field getField(int col, int row) {
         return field[row][col];
     }
 
+    /**
+     * vrati velkost dosky
+     * @return velkost dosky
+     */
 	public int getSize() {
         return size;
     }
