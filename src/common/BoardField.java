@@ -1,4 +1,10 @@
-/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+/**
+ * BoardField: Trieda reprezentujuca policko dosky
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
  */
 
 package common;
@@ -20,25 +26,45 @@ public class BoardField implements Field {
 	protected Field Ufield;
     protected Stack<Figure> history;
 
+    /**
+     * konstruktor policka sachovnice
+     * @param col stlpec kde sa policko nachadza
+     * @param row riadok kde sa policko nachadza
+     */
 	public BoardField(int col, int row) {
         this.col = col;
         this.row = row;
         this.history = new Stack<Figure>();
     }
 
+    /**
+     * vrati poziciu stlpca policka
+     * @return int
+     */
 	public int getCol() {
         return col;
     }
 
+    /**
+     * vrati poziciu riadku policka
+     * @return int
+     */
 	public int getRow() {
         return row;
     }
 
+    /**
+     * vrrati poziciu riadku a stlpca ako pole
+     * @return int
+     */
 	public int[] getPosition() {
         int[] position = {row, col};
         return position;
     }
 
+    /**
+     * vratenie stavu dosky o jeden spat
+     */
 	public void undo() {
         Figure figure = history.pop();
         this.disk = figure;
@@ -51,6 +77,11 @@ public class BoardField implements Field {
         }
     }
 
+    /**
+     * polozi na policko dosky figurku
+     * @param newdisk figurka ktora bude polozena
+     * @return bool
+     */
 	public boolean put(Figure newdisk) {
         if (hasDisk) {
             if (disk.isWhite() == newdisk.isWhite())
@@ -66,6 +97,10 @@ public class BoardField implements Field {
         return true;
     }
 
+    /**
+     * vrati figurku z policka
+     * @return Figure
+     */
 	public Figure get() {
         if (!hasDisk)
             return null;
@@ -73,10 +108,19 @@ public class BoardField implements Field {
         return disk;
     }
 
+    /**
+     * zisti ci je policko prazdne alebo plne
+     * @return bool
+     */
 	public boolean isEmpty() {
         return !hasDisk;
     }
 
+    /**
+     * odstrani z policka figurku
+     * @param disk - figurka ktora bude odstranena
+     * @return bool
+     */
 	public boolean remove(Figure disk) {
         if (this.disk.equals(disk)) {
             this.disk = null;
@@ -87,6 +131,11 @@ public class BoardField implements Field {
         return false;
     }
 
+    /**
+     * vytvori okolie policka
+     * @param dirs smer okolia v ktorom okolie je vytvarane
+     * @param field policko ktore sa nachadza v danom okoli
+     */
     public void addNextField(Field.Direction dirs, Field field) {
         switch(dirs) {
             case D:
@@ -116,6 +165,11 @@ public class BoardField implements Field {
         }
     }
 
+    /**
+     * vrati policko zo smeru
+     * @param dirs smer v ktorom je dane policko
+     * @return Field
+     */
     public Field nextField(Field.Direction dirs) {
         switch(dirs) {
             case D:

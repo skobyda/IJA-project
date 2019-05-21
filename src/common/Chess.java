@@ -1,4 +1,10 @@
-/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+/**
+ * Chess: Trieda reprezentujuca hry sach
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
  */
 
 package common;
@@ -24,6 +30,10 @@ public class Chess implements Game {
     protected int annotationIndex = 0;
     protected boolean shortAnnotation = true;
 
+    /**
+     * konstruktor hry sach - vytvori hru
+     * @param board doska na ktorej sa bude hrat
+     */
     public Chess(Board board) {
         this.board = board;
         this.size = board.getSize();
@@ -105,6 +115,10 @@ public class Chess implements Game {
         board.getField(1, 1).put(blackRook2);
     }
 
+    /**
+     * vrati dosku o jeden stav spat
+     * @return bool
+     */
     public boolean redo() {
         if (redoMoveTo.empty() || redoMoveWho.empty())
             return false;
@@ -167,6 +181,10 @@ public class Chess implements Game {
     }
 
     // Used for calculation of Check or Mat
+    /**
+     * pouziva sa na zistenie informacie ci nastal Sach alebo Mat
+     * @return Figure
+     */
     private Figure getKing() {
         // Find position of King
         for (int i = 1; i <= size; i++) {
@@ -190,6 +208,11 @@ public class Chess implements Game {
         return null;
     }
 
+    /**
+     * zistenie ci je pozicia ohrozena
+     * @param threatenedPosition policko pre ktore sa to zistuje
+     * @return bool
+     */
     private boolean isPositionThreatened(Field threatenedPosition) {
         // Iterate over every enemy figure and see if any threatens given field
         for (int i = 1; i <= size; i++) {
@@ -212,6 +235,10 @@ public class Chess implements Game {
         return false;
     }
 
+    /**
+     * zistenie ci ide o mat
+     * @return bool
+     */
     private boolean isMat() {
         if (!isCheck())
             return false;
@@ -238,6 +265,10 @@ public class Chess implements Game {
         return true;
     }
 
+    /**
+     * zistenie ci ide o sach
+     * @return bool
+     */
     private boolean isCheck() {
         // Find position of King
         Figure king = getKing();
@@ -249,6 +280,12 @@ public class Chess implements Game {
         return isPositionThreatened(king.getPosition());
     }
 
+    /**
+     * /TODO
+     * @param figure /TODO
+     * @param field /TODO
+     * @param capturing /TODO
+     */
     private void updateLastMove(Figure figure, Field field, boolean capturing) {
         String newVal;
 
@@ -296,6 +333,11 @@ public class Chess implements Game {
         return lastMove;
     }
 
+    /**
+     * /TODO
+     * @param moves /TODO
+     * @return bool
+     */
     public boolean checkNotation(List<String> moves) {
         for(String move : moves) {
             String[] strs = move.split("\\.");
@@ -329,7 +371,10 @@ public class Chess implements Game {
         return true;
     }
 
-    // Parse annotation
+
+    /**
+     * hranie hry - parsovanie vstupu na pohyby
+     */
     public void playGame() {
         String move = moves.get(0);
         moves.remove(move);
@@ -423,10 +468,20 @@ public class Chess implements Game {
         }
     }
 
+    /**
+     * vrati pocet vykonanych pohybov
+     * @return int
+     */
     public int getMovesNum() {
         return moves.size();
     }
 
+    /**
+     * jeden pohyb na sachovnici
+     * @param figure figurka ktorou sa bude hybat
+     * @param field policko na ktore sa bude hybat
+     * @return bool
+     */
     @Override
     public boolean move(Figure figure, Field field) {
         if (gameOver())
