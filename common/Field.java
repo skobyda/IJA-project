@@ -35,16 +35,19 @@ public interface Field {
 
     /**
      * rozhranie metody getCol(), - ziskanie pozicie stlpca
+     * @return int - cislo stlpca
      */
     public int getCol();
 
     /**
      * rozhranie metody getRow(), - ziskanie pozicie riadku
+     * @return int - cislo riadku
      */
     public int getRow();
 
     /**
      * rozhranie metody getPosition() - ziskanie pozicie policka
+     * @return int[] - pole s dvomi prvkami
      */
 	public int[] getPosition();
 

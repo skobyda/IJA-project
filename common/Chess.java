@@ -20,6 +20,8 @@ public class Chess implements Game {
     protected int size;
     protected Stack<Field> movedFrom;
     protected Stack<Field> movedTo;
+    protected Stack<Field> redoMoveTo;
+    protected Stack<Figure> redoMoveWho;
     protected int turnNum;
     protected String lastMove;
     protected LinkedList<Figure> gamePlayFigures;
@@ -37,6 +39,8 @@ public class Chess implements Game {
         this.size = board.getSize();
         this.movedFrom = new Stack<Field>();
         this.movedTo = new Stack<Field>();
+        this.redoMoveTo = new Stack<Field>();
+        this.redoMoveWho = new Stack<Figure>();
         this.turnNum = 1;
         this.gamePlayFigures = new LinkedList<Figure>();
         this.gamePlayFields = new LinkedList<Field>();
@@ -115,6 +119,22 @@ public class Chess implements Game {
      * vrati dosku o jeden stav spat
      * @return bool
      */
+    public boolean redo() {
+        if (redoMoveTo.empty() || redoMoveWho.empty())
+            return false;
+
+        Field field = redoMoveTo.pop();
+        Figure figure = redoMoveWho.pop();
+
+        if (!figure.canMove(field) || !move(figure, field)) {
+            redoMoveTo.clear();
+            redoMoveWho.clear();
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public boolean undo() {
         if (turnNum == 1)
@@ -123,6 +143,9 @@ public class Chess implements Game {
         this.turnNum--;
         Field field1 = movedTo.pop();
         Field field2 = movedFrom.pop();
+
+        redoMoveTo.push(field1);
+        redoMoveWho.push(field1.get());
 
         field1.undo();
         field2.undo();
@@ -138,7 +161,7 @@ public class Chess implements Game {
         // Find position of King
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
-                Field field = board.getField(i, j);
+                ija.ija2018.homework2.common.Field field = board.getField(i, j);
 
                 if (field.isEmpty())
                     continue;
@@ -166,7 +189,7 @@ public class Chess implements Game {
         // Iterate over every enemy figure and see if any threatens given field
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
-                Field field = board.getField(i, j);
+                ija.ija2018.homework2.common.Field field = board.getField(i, j);
 
                 if (field.isEmpty())
                     continue;
@@ -369,12 +392,12 @@ public class Chess implements Game {
             //     ((annotation.charAt(1) >= 'a' && annotation.charAt(0) <= 'h'))
             col = ((int)annotation.charAt(0) - 'a' + 1);
             row = ((int)annotation.charAt(1) - '0');
-            Field moveTo = board.getField(col, row);
+            ija.ija2018.homework2.common.Field moveTo = board.getField(col, row);
 
             // Find which figure can move to destinatio
             for (int i = 1; i <= size; i++) {
                 for (int j = 1; j <= size; j++) {
-                    Field field = board.getField(i, j);
+                    ija.ija2018.homework2.common.Field field = board.getField(i, j);
 
                     if (field.isEmpty())
                         continue;
@@ -394,11 +417,11 @@ public class Chess implements Game {
         } else {
             col = ((int)annotation.charAt(0) - 'a' + 1);
             row = ((int)annotation.charAt(1) - '0');
-            Field moveTo = board.getField(col, row);
+            ija.ija2018.homework2.common.Field moveTo = board.getField(col, row);
 
             col = ((int)annotation.charAt(2) - 'a' + 1);
             row = ((int)annotation.charAt(3) - '0');
-            Field moveFrom = board.getField(col, row);
+            ija.ija2018.homework2.common.Field moveFrom = board.getField(col, row);
 
             // TODO moveFrom.isEmpty
 
@@ -407,7 +430,7 @@ public class Chess implements Game {
     }
 
     /**
-     * /TODO
+     * vrati pocet vykonanych pohybov
      * @return int
      */
     public int getMovesNum() {
@@ -418,7 +441,7 @@ public class Chess implements Game {
      * jeden pohyb na sachovnici
      * @param figure figurka ktorou sa bude hybat
      * @param field policko na ktore sa bude hybat
-     * @return
+     * @return bool
      */
     @Override
     public boolean move(Figure figure, Field field) {

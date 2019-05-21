@@ -71,6 +71,9 @@ public class BoardField implements Field {
         if (figure != null) {
             this.hasDisk = true;
             figure.setPosition(this);
+            figure.decNumOfMoves();
+        } else {
+            this.hasDisk = false;
         }
     }
 
@@ -165,7 +168,7 @@ public class BoardField implements Field {
     /**
      * vrati policko zo smeru
      * @param dirs smer v ktorom je dane policko
-     * @return
+     * @return Field
      */
     public Field nextField(Field.Direction dirs) {
         switch(dirs) {

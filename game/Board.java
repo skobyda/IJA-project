@@ -50,6 +50,7 @@ public class Board {
      * vrati policko leziace na stlpci s cislom col a riadku s cislom row
      * @param col cislo stlpca
      * @param row cislo riadku
+     * @return Field - policka na pozadovanom riadku a stlpci
      */
 	public Field getField(int col, int row) {
         return field[row][col];
