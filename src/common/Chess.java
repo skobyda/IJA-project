@@ -375,7 +375,10 @@ public class Chess implements Game {
     /**
      * hranie hry - parsovanie vstupu na pohyby
      */
-    public void playGame() {
+    public boolean playGame() {
+        if (moves.size() == 0)
+            return false;
+
         String move = moves.get(0);
         moves.remove(move);
 
@@ -466,6 +469,8 @@ public class Chess implements Game {
 
             move(moveFrom.get(), moveTo);
         }
+
+        return true;
     }
 
     /**

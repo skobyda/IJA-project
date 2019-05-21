@@ -44,7 +44,6 @@ public class Main extends Application {
     private Group fieldGroup = new Group();
     private Group figureGroup = new Group();
     private ObservableList<String> moveHistory = FXCollections.observableArrayList("START");
-    private File gameFile = null;
 
     // Toolbar
     private HBox toolbar;
@@ -98,6 +97,13 @@ public class Main extends Application {
                 spreadFigures();
                 this.currentMove++;
                 list.getSelectionModel().select(moveCount - currentMove);
+            } else {
+                if (game.playGame()) {
+                    moveHistory.add(0, game.getLastMove());
+                    this.currentMove++;
+                }
+                // refresh GUI
+                spreadFigures();
             }
         });
         buttonForward.setPrefSize(100, 20);
@@ -132,7 +138,7 @@ public class Main extends Application {
         // Toolbar -> Start button
         buttonStart = new Button("Start");
         buttonStart.setOnAction(e -> {
-            playGame(gameFile);
+            playGame();
         });
         buttonStart.setDisable(true);
 
@@ -140,7 +146,8 @@ public class Main extends Application {
         buttonLoadGame = new Button("Select File");
         buttonLoadGame.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
-            gameFile = fileChooser.showOpenDialog(primaryStage);
+            File gameFile = fileChooser.showOpenDialog(primaryStage);
+            parseFile(gameFile);
             buttonStart.setDisable(false);
         });
         buttonLoadGame.setDisable(true);
@@ -192,7 +199,7 @@ public class Main extends Application {
         window.show();
     }
 
-    public void playGame(File file) {
+    public void parseFile(File file) {
         List<String> moves = new ArrayList<String>();
         BufferedReader reader;
 		try {
@@ -208,7 +215,9 @@ public class Main extends Application {
 		}
 
         game.checkNotation(moves);
+    }
 
+    public void playGame() {
         int delay;
 		try {
             delay = Integer.parseInt(delayInput.getText());
@@ -226,6 +235,7 @@ public class Main extends Application {
                 spreadFigures();
             }
         }));
+        System.out.println(currentMove);
         animation.setCycleCount(game.getMovesNum());
         animation.play();
     }

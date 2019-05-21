@@ -49,7 +49,7 @@ public interface Game {
     /**
      * //TODO
      */
-    public void playGame();
+    public boolean playGame();
 
     /**
      * //TODO
