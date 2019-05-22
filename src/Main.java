@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 import gui.*;
@@ -59,6 +60,7 @@ public class Main extends Application {
     private ChoiceBox<String> choiceBox;
     private Button buttonStart;
     private Button buttonLoadGame;
+    private Button buttonSaveGame;
     private TextField delayInput;
 
     private ListView<String> list;
@@ -83,7 +85,7 @@ public class Main extends Application {
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         window = primaryStage;
         window.setTitle("Michal's and Simon's Chess");
 
@@ -105,7 +107,6 @@ public class Main extends Application {
         // Toolbar -> Delay input
         delayInput = new TextField();
         delayInput.setText("Delay (ms)");
-        delayInput.setPrefSize(100, 20);
 
         // Toolbar -> Forward Button
         buttonForward = new Button("Forward");
@@ -170,12 +171,31 @@ public class Main extends Application {
         });
         buttonLoadGame.setDisable(true);
 
+        // Toolbar -> Save game Button
+        buttonSaveGame = new Button("Save Game");
+        buttonSaveGame.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showSaveDialog(primaryStage);
+            if (file != null) {
+                String fileContent = "";
+                // We want to skip last value "START"
+                for (int i = 0; i < moveHistory.size() - 1; i++) {
+                    String move = moveHistory.get(moveHistory.size() - i - 2);
+                    if ((i % 2) == 0)
+                        fileContent += ((i / 2) + 1) + ". " + move + " ";
+                    else
+                        fileContent += move + "\n";
+                }
+                saveTextToFile(fileContent, file);
+            }
+        });
+
         // Toolbar
         toolbar = new HBox();
         toolbar.setPadding(new Insets(15, 12, 15, 12));
         toolbar.setSpacing(10);
         toolbar.setStyle("-fx-background-color: #336699;");
-        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, delayInput, buttonStart, buttonBack, buttonForward, buttonReset);
+        toolbar.getChildren().addAll(choiceBox, buttonLoadGame, delayInput, buttonStart, buttonBack, buttonForward, buttonReset, buttonSaveGame);
 
         // Board
         StackPane playGround = new StackPane();
@@ -206,11 +226,27 @@ public class Main extends Application {
         tmp.setTop(toolbar);
         tmp.setRight(list);
 
-        Scene scene = new Scene(tmp, 800, 510);
+        Scene scene = new Scene(tmp, 900, 510);
 
         window.setScene(scene);
 
         window.show();
+    }
+
+    /**
+     * Ulozi anotaciu do suboru.
+     * @param content Obsah suboru.
+     * @param file Subor na vystup.
+     */
+    private void saveTextToFile(String content, File file) {
+        try {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println(content);
+            writer.close();
+        } catch (IOException e) {
+			e.printStackTrace();
+        }
     }
 
     /**
@@ -256,6 +292,8 @@ public class Main extends Application {
                 spreadFigures();
             }
         }));
+        this.currentMove = game.getMovesNum();
+        this.moveCount = game.getMovesNum();
         animation.setCycleCount(game.getMovesNum());
         animation.play();
     }
@@ -293,9 +331,12 @@ public class Main extends Application {
 
                             Field newField = board.getField(newX, newY);
                             if (game.move(figureBackend, newField) == true) {
-                                moveHistory.add(0, game.getLastMove());
                                 this.currentMove++;
                                 this.moveCount = currentMove;
+                                while (moveHistory.size() != moveCount) {
+                                    moveHistory.remove(0);
+                                }
+                                moveHistory.add(0, game.getLastMove());
                             }
 
                             spreadFigures();
