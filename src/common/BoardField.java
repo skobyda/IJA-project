@@ -27,9 +27,9 @@ public class BoardField implements Field {
     protected Stack<Figure> history;
 
     /**
-     * konstruktor policka sachovnice
-     * @param col stlpec kde sa policko nachadza
-     * @param row riadok kde sa policko nachadza
+     * Konstruktor policka sachovnice.
+     * @param col - Stlpec kde sa policko nachadza.
+     * @param row - Riadok kde sa policko nachadza.
      */
 	public BoardField(int col, int row) {
         this.col = col;
@@ -38,7 +38,7 @@ public class BoardField implements Field {
     }
 
     /**
-     * vrati poziciu stlpca policka
+     * Vrati poziciu stlpca policka.
      * @return int
      */
 	public int getCol() {
@@ -46,7 +46,7 @@ public class BoardField implements Field {
     }
 
     /**
-     * vrati poziciu riadku policka
+     * Vrati poziciu riadku policka.
      * @return int
      */
 	public int getRow() {
@@ -54,7 +54,7 @@ public class BoardField implements Field {
     }
 
     /**
-     * vrrati poziciu riadku a stlpca ako pole
+     * Vrrati poziciu riadku a stlpca ako pole.
      * @return int
      */
 	public int[] getPosition() {
@@ -63,7 +63,7 @@ public class BoardField implements Field {
     }
 
     /**
-     * vratenie stavu dosky o jeden spat
+     * Vratenie stavu dosky o jeden spat.
      */
 	public void undo() {
         Figure figure = history.pop();
@@ -78,8 +78,8 @@ public class BoardField implements Field {
     }
 
     /**
-     * polozi na policko dosky figurku
-     * @param newdisk figurka ktora bude polozena
+     * Polozi na policko dosky figurku.
+     * @param newdisk Figurka ktora bude polozena.
      * @return bool
      */
 	public boolean put(Figure newdisk) {
@@ -98,7 +98,7 @@ public class BoardField implements Field {
     }
 
     /**
-     * vrati figurku z policka
+     * Vrati figurku z policka.
      * @return Figure
      */
 	public Figure get() {
@@ -109,7 +109,7 @@ public class BoardField implements Field {
     }
 
     /**
-     * zisti ci je policko prazdne alebo plne
+     * Zisti, ci je policko prazdne alebo plne.
      * @return bool
      */
 	public boolean isEmpty() {
@@ -117,8 +117,8 @@ public class BoardField implements Field {
     }
 
     /**
-     * odstrani z policka figurku
-     * @param disk - figurka ktora bude odstranena
+     * Odstrani z policka figurku.
+     * @param disk - Figurka ktora bude odstranena.
      * @return bool
      */
 	public boolean remove(Figure disk) {
@@ -132,9 +132,9 @@ public class BoardField implements Field {
     }
 
     /**
-     * vytvori okolie policka
-     * @param dirs smer okolia v ktorom okolie je vytvarane
-     * @param field policko ktore sa nachadza v danom okoli
+     * Vytvori okolie policka.
+     * @param dirs Smer okolia v ktorom okolie je vytvarane.
+     * @param field Policko ktore sa nachadza v danom okoli.
      */
     public void addNextField(Field.Direction dirs, Field field) {
         switch(dirs) {
@@ -166,8 +166,8 @@ public class BoardField implements Field {
     }
 
     /**
-     * vrati policko zo smeru
-     * @param dirs smer v ktorom je dane policko
+     * Vrati policko zo smeru.
+     * @param dirs Smer v ktorom je dane policko.
      * @return Field
      */
     public Field nextField(Field.Direction dirs) {

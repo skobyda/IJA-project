@@ -14,46 +14,46 @@ import java.util.*;
 public interface Game {
 
     /**
-     * rozhranie metody move() - presunie figurku na zadane policko
-     * @param figure figurka ktora ma byt presunuta
-     * @param field policko na ktore ma byt figurka presunuta
-     * @return bool - pohyb je mozny alebo nie
+     * Rozhranie metody - Presunie figurku na zadane policko.
+     * @param figure - Figurka ktora ma byt presunuta.
+     * @param field - Policko na ktore ma byt figurka presunuta.
+     * @return bool - Pohyb je mozny alebo nie.
      */
     public boolean move(Figure figure, Field field);
 
     /**
-     * rozhranie metody getLastMove() - vrati informaciu o poslednom vykonanom pohybe {zo zasobnika}
+     * Rozhranie metody - Vrati informaciu o poslednom vykonanom pohybe {zo zasobnika}.
      * @return string
      */
     public String getLastMove();
     public boolean gameOver();
     /**
-     * rozhranie metody redo() - vrati hru o jeden pohyb vpred
+     * Rozhranie metody - Vrati hru o jeden pohyb vpred.
      * @return bool
      */
     public boolean redo();
 
     /**
-     * rozhranie metody undo() - vrati hru o jeden pohyb spat
+     * Rozhranie metody - Vrati hru o jeden pohyb spat.
      * @return bool
      */
     public boolean undo();
 
     /**
-     * rozhranie metody checkNotation -
-     * @param moves //TODO
+     * Rozhranie metody - Kontrola vstupneho suboru.
+     * @param moves - Subor s datami.
      * @return bool
      */
     public boolean checkNotation(List<String> moves);
 
     /**
-     * //TODO
+     * Rozhranie metody - Jeden pohyb v hre.
      */
     public void playGame();
 
     /**
-     * //TODO
-     * @return //TODO
+     * Rozhranie metody - Vrati pocet pohybov hry.
+     * @return int - Pocet pohybov.
      */
     public int getMovesNum();
 }

@@ -17,8 +17,8 @@ public class Board {
     private BoardField[][] field;
 
     /**
-     * konstruktor pre vytvorenie dosky
-     * @param size velkost pola(size X size)
+     * Konstruktor pre vytvorenie dosky.
+     * @param size - Velkost pola(size X size).
      */
 	public Board(int size) {
         this.size = size;
@@ -47,17 +47,17 @@ public class Board {
     }
 
     /**
-     * vrati policko leziace na stlpci s cislom col a riadku s cislom row
-     * @param col cislo stlpca
-     * @param row cislo riadku
-     * @return Field - policka na pozadovanom riadku a stlpci
+     * Vrati policko leziace na stlpci s cislom col a riadku s cislom row.
+     * @param col - Cislo stlpca.
+     * @param row - Cislo riadku.
+     * @return Field - Policka na pozadovanom riadku a stlpci.
      */
 	public Field getField(int col, int row) {
         return field[row][col];
     }
 
     /**
-     * vrati velkost dosky
+     * Vrati velkost dosky.
      * @return velkost dosky
      */
 	public int getSize() {

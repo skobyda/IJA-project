@@ -1,4 +1,10 @@
-/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+/**
+ * FigureGUI: frontend trieda figurky
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
  */
 
 package gui;
@@ -19,11 +25,16 @@ public class FigureGUI extends ImageView {
     private Board boardBackend;
     private Image image;
     private int size;
-
-    // TODO
     private double mouseX, mouseY;
     private double diffX, diffY;
 
+    /**
+     * Konstruktor grafickeho rozhrania pre figurku.
+     * @param figureArg - Samotna figurka.
+     * @param gameArg - Hra v ktorej sa figurka nachadza.
+     * @param boardArg - Doska na ktorej sa figurka nachadza.
+     * @param sizeArg - Velkost figurky v pixeloch.
+     */
     public FigureGUI(Figure figureArg, Game gameArg, Board boardArg, int sizeArg) {
         this.figureBackend = figureArg;
         this.gameBackend = gameArg;
@@ -82,6 +93,9 @@ public class FigureGUI extends ImageView {
         */
     }
 
+    /**
+     * Obnovenie pozicie figurky.
+     */
     public void refreshLocation() {
         int row = figureBackend.getPosition().getRow();
         int col = figureBackend.getPosition().getCol();
