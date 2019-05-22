@@ -19,9 +19,9 @@ public class Queen implements Figure {
     private int numOfMoves;
 
     /**
-     * [konstruktor pre vytvorenie kralovnej]
-     * @param isWhite [farba figurky]
-     * @param typeStr [typ figurky]
+     * Konstruktor pre vytvorenie kralovnej.
+     * @param isWhite - Farba figurky.
+     * @param typeStr - Typ figurky.
      */
 	public Queen(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
@@ -30,7 +30,7 @@ public class Queen implements Figure {
     }
 
     /**
-     * vrati farbu figurky
+     * Vrati farbu figurky.
      * @return true/false
      */
 	public boolean isWhite() {
@@ -38,7 +38,7 @@ public class Queen implements Figure {
     }
 
     /**
-     * vrati typ figurky
+     * Vrati typ figurky.
      * @return blackQueen/whiteQueen
      */
 	public String getType() {
@@ -46,7 +46,7 @@ public class Queen implements Figure {
     }
 
     /**
-     * vrati farbu a poziciu fig�rky Kralovnej
+     * Vrati farbu a poziciu figurky Kralovnej.
      * @return V[W/B)pos:pos
      */
     @Override
@@ -62,8 +62,8 @@ public class Queen implements Figure {
     }
 
     /**
-     * vrati poziciu figurky Kralovnej
-     * @return Field- policko kde sa figurka Kralovnej nachadza
+     * Vrati poziciu figurky Kralovnej.
+     * @return Field - Policko kde sa figurka Kralovnej nachadza.
      */
     @Override
     public Field getPosition() {
@@ -71,14 +71,14 @@ public class Queen implements Figure {
     }
 
     /**
-     * dekremenntuje pocet pohybov
+     * Dekremenntuje pocet pohybov.
      */
     public void decNumOfMoves() {
         this.numOfMoves--;
     }
 
     /**
-     * zmeni poziciu figurky kralovnej
+     * Zmeni poziciu figurky kralovnej.
      */
     @Override
     public void setPosition(Field field) {
@@ -86,7 +86,7 @@ public class Queen implements Figure {
     }
 
     /**
-     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky
+     * Vrati informaciu o tom, ci je mozne sa na zadane policko pohnut, v ceste nesmu stat ziadne figurky.
      * @return true/false
      */
     public boolean canMove(Field moveTo) {
@@ -135,7 +135,7 @@ public class Queen implements Figure {
     }
 
     /**
-     * posunie figurku na zadane policko
+     * Posunie figurku na zadane policko.
      * @return ture/false
      */
     @Override

@@ -1,5 +1,5 @@
 /**
- * Bishop: Trieda reprezentujuca figurku
+ * Bishop: Trieda reprezentujuca figurku.
  * @author Simon Kobyda, xkobyd00
  * @author Michal Zelenak, xzelen24
  * Project: Chess
@@ -18,9 +18,9 @@ public class Bishop implements Figure {
     private int numOfMoves;
 
     /**
-     * konstruktor pre vytvorenie Strelca
-     * @param isWhite farba Strelca
-     * @param typeStr typ figurky
+     * Konstruktor pre vytvorenie strelca.
+     * @param isWhite - Farba Strelca.
+     * @param typeStr - Typ figurky.
      */
 	public Bishop(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
@@ -29,7 +29,7 @@ public class Bishop implements Figure {
     }
 
     /**
-     * vrati farbu figurky
+     * Vrati farbu figurky.
      * @return true/false
      */
 	public boolean isWhite() {
@@ -37,7 +37,7 @@ public class Bishop implements Figure {
     }
 
     /**
-     * vrati typ figurky
+     * Vrati typ figurky.
      * @return blackBishop/whiteBishop
      */
 	public String getType() {
@@ -45,7 +45,7 @@ public class Bishop implements Figure {
     }
 
     /**
-     * vrati farbu a poziciu fig�rky Strelca
+     * Vrati farbu a poziciu figurky strelca.
      * @return V[W/B)pos:pos
      */
     @Override
@@ -61,8 +61,8 @@ public class Bishop implements Figure {
     }
 
     /**
-     * vrati poziciu figurky Strelca
-     * @return Field- policko kde sa figurka Strelca nachadza
+     * Vrati poziciu figurky strelca.
+     * @return Field- Policko kde sa figurka Strelca nachadza.
      */
     @Override
     public Field getPosition() {
@@ -70,14 +70,14 @@ public class Bishop implements Figure {
     }
 
     /**
-     * dekrementuje pocet pohybov
+     * Dekrementuje pocet pohybov.
      */
     public void decNumOfMoves() {
         this.numOfMoves--;
     }
 
     /**
-     * zmeni poziciu figurky Strelca
+     * Zmeni poziciu figurky strelca.
      */
     @Override
     public void setPosition(Field field) {
@@ -85,7 +85,7 @@ public class Bishop implements Figure {
     }
 
     /**
-     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky
+     * Vrati informaciu o tom, ci je mozne sa na zadane policko pohnut, v ceste nesmu stat ziadne figurky.
      * @return true/false
      */
     public boolean canMove(Field moveTo) {
@@ -131,7 +131,7 @@ public class Bishop implements Figure {
     }
 
     /**
-     * posunie figurku na zadane policko
+     * Posunie figurku na zadane policko.
      * @return ture/false
      */
     @Override

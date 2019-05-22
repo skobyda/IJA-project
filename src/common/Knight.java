@@ -19,9 +19,10 @@ public class Knight implements Figure {
     private int numOfMoves;
 
     /**
-     * [konstruktor pre vytvorenie kona]
-     * @param isWhite [farba Kona]
-     * @param typeStr [typ figurky]
+     * Konstruktor pre vytvorenie kona.
+     * @param isWhite - Farba Kona.
+     * @param typeStr - Typ figurky
+
      */
 	public Knight(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
@@ -30,7 +31,7 @@ public class Knight implements Figure {
     }
 
     /**
-     * vrati farbu figurky
+     * Vrati farbu figurky.
      * @return true/false
      */
 	public boolean isWhite() {
@@ -38,7 +39,7 @@ public class Knight implements Figure {
     }
 
     /**
-     * vrati typ figurky
+     * Vrati typ figurky.
      * @return blackKnight/whiteKnight
      */
 	public String getType() {
@@ -46,7 +47,7 @@ public class Knight implements Figure {
     }
 
     /**
-     * vrati farbu a poziciu fig�rky Kona
+     * Vrati farbu a poziciu figurky kona.
      * @return V[W/B)pos:pos
      */
     @Override
@@ -62,8 +63,8 @@ public class Knight implements Figure {
     }
 
     /**
-     * vrati poziciu figurky Kona
-     * @return Field- policko kde sa figurka Kon nachadza
+     * Vrati poziciu figurky kona.
+     * @return Field - Policko kde sa figurka kona nachadza.
      */
     @Override
     public Field getPosition() {
@@ -71,14 +72,14 @@ public class Knight implements Figure {
     }
 
     /**
-     * deinkrementuje pocet pohybov
+     * Deinkrementuje pocet pohybov.
      */
     public void decNumOfMoves() {
         this.numOfMoves--;
     }
 
     /**
-     * zmeni poziciu figurky Kona
+     * Zmeni poziciu figurky kona.
      */
     @Override
     public void setPosition(Field field) {
@@ -86,7 +87,7 @@ public class Knight implements Figure {
     }
 
     /**
-     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste mozu stat ziadne figurky
+     * Vrati informaciu o tom, ci je mozne sa na zadane policko pohnut, v ceste mozu stat ziadne figurky.
      * @return true/false
      */
     public boolean canMove(Field moveTo) {
@@ -112,7 +113,7 @@ public class Knight implements Figure {
     }
 
     /**
-     * posunie figurku na zadane policko
+     * Posunie figurku na zadane policko.
      * @return ture/false
      */
     @Override

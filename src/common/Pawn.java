@@ -18,7 +18,7 @@ public class Pawn implements Figure {
     private int numOfMoves;
 
     /**
-     * konstruktor pre vytvorenie pesiaka
+     * Konstruktor pre vytvorenie pesiaka.
      * @param isWhite farba pesiaka
      * @param typeStr typ figurky(pesiak)
      */
@@ -29,7 +29,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * vrati farbu figurky
+     * Vrati farbu figurky.
      * @return true/false
      */
 	public boolean isWhite() {
@@ -37,7 +37,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * vrati typ figurky
+     * Vrati typ figurky.
      * @return blackPawn/whitePawn
      */
 	public String getType() {
@@ -45,7 +45,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * vrati farbu a poziciu fig�rky Pesiaka
+     * Vrati farbu a poziciu figurky pesiaka.
      * @return V[W/B)pos:pos
      */
     @Override
@@ -61,8 +61,8 @@ public class Pawn implements Figure {
     }
 
     /**
-     * vrati poziciu figurky Pesiaka
-     * @return Field- policko kde sa figurka Pesiaka nachadza
+     * Vrati poziciu figurky pesiaka.
+     * @return Field - Policko kde sa figurka pesiaka nachadza.
      */
     @Override
     public Field getPosition() {
@@ -70,7 +70,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * dekrementuje pocet pohybov
+     * Dekrementuje pocet pohybov.
      */
     public void decNumOfMoves() {
         if (numOfMoves > 0)
@@ -78,7 +78,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * zmeni poziciu figurky Pesiaka
+     * Zmeni poziciu figurky pesiaka.
      */
     @Override
     public void setPosition(Field field) {
@@ -86,7 +86,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky
+     * Vrati informaciu o tom, ci je mozne sa na zadane policko pohnut, v ceste nesmu stat ziadne figurky.
      * @return true/false
      */
     public boolean canMove(Field moveTo) {
@@ -139,7 +139,7 @@ public class Pawn implements Figure {
     }
 
     /**
-     * posunie figurku na zadane policko
+     * Posunie figurku na zadane policko.
      * @return ture/false
      */
     @Override

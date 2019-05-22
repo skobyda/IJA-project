@@ -18,9 +18,9 @@ public class Rook implements Figure {
     private int numOfMoves;
 
     /**
-     * konstruktor pre vytvorenie
-     * @param isWhite farba Veze
-     * @param typeStr typ figurky(veza)
+     * Konstruktor pre vytvorenie.
+     * @param isWhite - Farba Veze.
+     * @param typeStr - Typ figurky(veza).
      */
 	public Rook(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
@@ -29,7 +29,7 @@ public class Rook implements Figure {
     }
 
     /**
-     * vrati farbu figurky
+     * Vrati farbu figurky.
      * @return true/false
      */
 	public boolean isWhite() {
@@ -37,7 +37,7 @@ public class Rook implements Figure {
     }
 
     /**
-     * vrati typ figurky
+     * Vrati typ figurky.
      * @return blackRook/whiteRook
      */
 	public String getType() {
@@ -45,7 +45,7 @@ public class Rook implements Figure {
     }
 
     /**
-     * vrati farbu a poziciu fig�rky Veze
+     * Vrati farbu a poziciu figurky veze.
      * @return V[W/B)pos:pos
      */
     @Override
@@ -61,8 +61,8 @@ public class Rook implements Figure {
     }
 
     /**
-     * vrati poziciu figurky Veze
-     * @return Field- policko kde sa figurka Veze nachadza
+     * Vrati poziciu figurky Veze.
+     * @return Field - Policko kde sa figurka Veze nachadza.
      */
     @Override
     public Field getPosition() {
@@ -70,14 +70,14 @@ public class Rook implements Figure {
     }
 
     /**
-     * dekrementuje pocet pohybov
+     * Dekrementuje pocet pohybov.
      */
     public void decNumOfMoves() {
         this.numOfMoves--;
     }
 
     /**
-     * zmeni poziciu figurky Veze
+     * Zmeni poziciu figurky Veze.
      */
     @Override
     public void setPosition(Field field) {
@@ -85,7 +85,7 @@ public class Rook implements Figure {
     }
 
     /**
-     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky
+     * Vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky.
      * @return true/false
      */
     public boolean canMove(Field moveTo) {
@@ -131,7 +131,7 @@ public class Rook implements Figure {
     }
 
     /**
-     * posunie figurku na zadane policko
+     * Posunie figurku na zadane policko.
      * @return ture/false
      */
     @Override

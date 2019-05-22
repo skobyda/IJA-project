@@ -31,8 +31,8 @@ public class Chess implements Game {
     protected boolean shortAnnotation = true;
 
     /**
-     * konstruktor hry sach - vytvori hru
-     * @param board doska na ktorej sa bude hrat
+     * Konstruktor hry - Vytvori hru.
+     * @param board - Doska na ktorej sa bude hrat.
      */
     public Chess(Board board) {
         this.board = board;
@@ -116,7 +116,7 @@ public class Chess implements Game {
     }
 
     /**
-     * vrati dosku o jeden stav spat
+     * Vrati dosku o jeden stav spat.
      * @return bool
      */
     public boolean redo() {
@@ -182,7 +182,7 @@ public class Chess implements Game {
 
     // Used for calculation of Check or Mat
     /**
-     * pouziva sa na zistenie informacie ci nastal Sach alebo Mat
+     * Pouziva sa na zistenie informacie ci nastal Sach alebo Mat.
      * @return Figure
      */
     private Figure getKing() {
@@ -209,8 +209,8 @@ public class Chess implements Game {
     }
 
     /**
-     * zistenie ci je pozicia ohrozena
-     * @param threatenedPosition policko pre ktore sa to zistuje
+     * Zistenie ci je pozicia ohrozena.
+     * @param threatenedPosition - Policko pre ktore sa to zistuje.
      * @return bool
      */
     private boolean isPositionThreatened(Field threatenedPosition) {
@@ -236,7 +236,7 @@ public class Chess implements Game {
     }
 
     /**
-     * zistenie ci ide o mat
+     * Zistenie ci ide o mat.
      * @return bool
      */
     private boolean isMat() {
@@ -246,7 +246,6 @@ public class Chess implements Game {
         // Find position of King
         Figure king = getKing();
 
-        // TODO delete later
         if (king == null)
             return false;
 
@@ -266,14 +265,13 @@ public class Chess implements Game {
     }
 
     /**
-     * zistenie ci ide o sach
+     * Zistenie ci ide o sach.
      * @return bool
      */
     private boolean isCheck() {
         // Find position of King
         Figure king = getKing();
 
-        // TODO delete later
         if (king == null)
             return false;
 
@@ -281,10 +279,10 @@ public class Chess implements Game {
     }
 
     /**
-     * /TODO
-     * @param figure /TODO
-     * @param field /TODO
-     * @param capturing /TODO
+     * Zapamata si posledny prevedeny pohyb, ktory nastal.
+     * @param figure - Figurka ktora previedla pohyb.
+     * @param field - Policko kam sa figurka pohla.
+     * @param capturing - Informacia ci pri pohybe bola odstranena superova figurka.
      */
     private void updateLastMove(Figure figure, Field field, boolean capturing) {
         String newVal;
@@ -334,13 +332,13 @@ public class Chess implements Game {
     }
 
     /**
-     * /TODO
-     * @param moves /TODO
+     * Skontroluje spravnost notacie, a ulozi jednotlive pohyby do zasobniku.
+     * @param movesFile - Obsah suboru s notaciou.
      * @return bool
      */
-    public boolean checkNotation(List<String> movesFile) {
-        moves.clear();
-        for(String move : movesFile) {
+    public boolean checkNotation(List<String> moves) {
+        for(String move : moves) {
+
             String[] strs = move.split("\\.");
 
             if (strs == null || strs.length != 2)
@@ -374,12 +372,9 @@ public class Chess implements Game {
 
 
     /**
-     * hranie hry - parsovanie vstupu na pohyby
+     * Hranie hry - Parsovanie vstupu na pohyby.
      */
-    public boolean playGame() {
-        if (moves.size() == 0)
-            return false;
-
+    public void playGame() {
         String move = moves.get(0);
         moves.remove(move);
 
@@ -466,8 +461,6 @@ public class Chess implements Game {
             row = ((int)annotation.charAt(3) - '0');
             Field moveFrom = board.getField(col, row);
 
-            // TODO moveFrom.isEmpty
-
             move(moveFrom.get(), moveTo);
         }
 
@@ -475,7 +468,8 @@ public class Chess implements Game {
     }
 
     /**
-     * vrati pocet vykonanych pohybov
+     * Vrati pocet vykonanych pohybov.
+
      * @return int
      */
     public int getMovesNum() {
@@ -483,9 +477,10 @@ public class Chess implements Game {
     }
 
     /**
-     * jeden pohyb na sachovnici
-     * @param figure figurka ktorou sa bude hybat
-     * @param field policko na ktore sa bude hybat
+     * Jeden pohyb na sachovnici.
+     * @param figure - Figurka ktorou sa bude hybat.
+     * @param field - Policko na ktore sa bude hybat.
+
      * @return bool
      */
     @Override

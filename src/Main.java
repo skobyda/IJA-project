@@ -1,4 +1,10 @@
-/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+/**
+ * Chess: Main - Spusta samotnu aplikaciu a tvori zaklad uzivatelskeho rozhrania.
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
  */
 
 import javafx.application.Application;
@@ -63,10 +69,19 @@ public class Main extends Application {
     private int moveCount = 0;
     private int currentMove = 0;
 
+    /**
+     * Metoda hlavnej casti programu.
+     * @param args Argumenty programu(zadane pri spusteni).
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Zaciatok hry.
+     * @param primaryStage - Stav na zaciatku hry.
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
@@ -198,6 +213,10 @@ public class Main extends Application {
         window.show();
     }
 
+    /**
+     * Rozdeluje subor do datovej struktury.
+     * @param file Subor so vstupom.
+     */
     public void parseFile(File file) {
         List<String> moves = new ArrayList<String>();
         BufferedReader reader;
@@ -216,6 +235,9 @@ public class Main extends Application {
         game.checkNotation(moves);
     }
 
+    /**
+     * Vykonanie jedneho pohybu hry.
+     */
     public void playGame() {
         int delay;
 		try {
@@ -238,6 +260,9 @@ public class Main extends Application {
         animation.play();
     }
 
+    /**
+     * Rozmiestnenie figuriek na zaciatku hry.
+     */
     public void spreadFigures() {
         figureGroup.getChildren().clear();
 

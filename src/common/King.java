@@ -18,9 +18,9 @@ public class King implements Figure {
     private int numOfMoves;
 
     /**
-     * konstruktor pre vytvorenie Krala
-     * @param isWhite farba Krala
-     * @param typeStr typ figurky
+     * Konstruktor pre vytvorenie Krala.
+     * @param isWhite - Farba krala.
+     * @param typeStr - Typ figurky.
      */
 	public King(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
@@ -29,7 +29,7 @@ public class King implements Figure {
     }
 
     /**
-     * vrati farbu figurky
+     * Vrati farbu figurky.
      * @return true/false
      */
 	public boolean isWhite() {
@@ -37,7 +37,7 @@ public class King implements Figure {
     }
 
     /**
-     * vrati typ figurky
+     * Vrati typ figurky.
      * @return blackKing/whiteKing
      */
 	public String getType() {
@@ -45,7 +45,7 @@ public class King implements Figure {
     }
 
     /**
-     * vrati farbu a poziciu fig�rky
+     * Vrati farbu a poziciu figurky.
      * @return V[W/B)pos:pos
      */
     @Override
@@ -61,8 +61,8 @@ public class King implements Figure {
     }
 
     /**
-     * vrati poziciu figurky Krala
-     * @return Field- policko kde sa figurka Krala nachadza
+     * Vrati poziciu figurky krala.
+     * @return Field - Policko kde sa figurka krala nachadza.
      */
     @Override
     public Field getPosition() {
@@ -70,14 +70,14 @@ public class King implements Figure {
     }
 
     /**
-     * dekrementuje pocet pohybov
+     * Dekrementuje pocet pohybov.
      */
     public void decNumOfMoves() {
         this.numOfMoves--;
     }
 
     /**
-     * zmeni poziciu figurky Krala
+     * Zmeni poziciu figurky krala.
      */
     @Override
     public void setPosition(Field field) {
@@ -85,7 +85,7 @@ public class King implements Figure {
     }
 
     /**
-     * vrati informaciu o tom, ci je mozne sa na zadane policko pohnut - v ceste nesmu stat ziadne figurky
+     * Vrati informaciu o tom, ci je mozne sa na zadane policko pohnut, v ceste nesmu stat ziadne figurky.
      * @return true/false
      */
     public boolean canMove(Field moveTo) {
@@ -121,7 +121,7 @@ public class King implements Figure {
     }
 
     /**
-     * posunie figurku na zadane policko
+     * Posunie figurku na zadane policko.
      * @return ture/false
      */
     @Override

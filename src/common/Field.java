@@ -10,12 +10,13 @@
 package common;
 
 /**
- * rozhranie policka dosky
+ * Rozhranie policka dosky.
+
  */
 public interface Field {
 
     /**
-     * enumeracia okolitych policok voci jednemu policku dosky
+     * Enumeracia okolitych policok voci jednemu policku dosky.
      */
     public static enum Direction {
         D,
@@ -29,64 +30,64 @@ public interface Field {
     }
 
     /**
-     * rozhranie metody undo() - vratenie tahu o jeden spat
+     * Rozhranie metody - Vratenie tahu o jeden spat.
      */
 	public void undo();
 
     /**
-     * rozhranie metody getCol(), - ziskanie pozicie stlpca
-     * @return int - cislo stlpca
+     * Rozhranie metody - Ziskanie pozicie stlpca.
+     * @return int - Cislo stlpca.
      */
     public int getCol();
 
     /**
-     * rozhranie metody getRow(), - ziskanie pozicie riadku
-     * @return int - cislo riadku
+     * Rozhranie metody - Ziskanie pozicie riadku.
+     * @return int - Cislo riadku.
      */
     public int getRow();
 
     /**
-     * rozhranie metody getPosition() - ziskanie pozicie policka
-     * @return int[] - pole s dvomi prvkami
+     * Rozhranie metody - Ziskanie pozicie policka.
+     * @return int[] - Pole s dvomi prvkami.
      */
 	public int[] getPosition();
 
     /**
-     * rozhranie metody put() - polozenie figurky na policko
-     * @param figure figurka ktora bude polozena
+     * Rozhranie metody - polozenie figurky na policko.
+     * @param figure - Figurka ktora bude polozena.
      * @return bool
      */
 	public boolean put(Figure figure);
 
     /**
-     * rozhranie metody get() - ziskanie figurky z policka
-     * @return Figure - vrati objekt figurky
+     * Rozhranie metody - Ziskanie figurky z policka.
+     * @return Figure - Vrati objekt figurky.
      */
 	public Figure get();
 
     /**
-     * rozhranie metody isEmpty() - zistenie ci je policko prazdne
+     * Rozhranie metody - Zistenie ci je policko prazdne.
      * @return bool
      */
 	public boolean isEmpty();
 
     /**
-     * rozhranie metody remove() - odstranenie figurky z policka
-     * @param figure - figurka ktora bude odstranena
+     * Rozhranie metody - Odstranenie figurky z policka.
+     * @param figure - Figurka ktora bude odstranena.
      * @return bool
      */
 	public boolean remove(Figure figure);
 
     /**
-     * rozhranie metody addNextField() - pridanie policka ktore je vedla daneho policka
-     * @param dirs smer pre ktory sa to bude pridavat
-     * @param field policko ktore sa bude pridavat
+     * Rozhranie metody - Pridanie policka ktore je vedla daneho policka.
+     * @param dirs - Smer pre ktory sa to bude pridavat.
+     * @param field - Policko ktore sa bude pridavat.
      */
     public void addNextField(Field.Direction dirs, Field field);
 
     /**
-     * rozhranie metody nextField() - ziskanie policka ktore je v zadanom smere
-     * @param dirs smer ktory ma byt prehladany
+     * Rozhranie metody - Ziskanie policka ktore je v zadanom smere.
+     * @param dirs - Smer ktory ma byt prehladany.
      * @return Field
      */
     public Field nextField(Field.Direction dirs);

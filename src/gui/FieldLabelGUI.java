@@ -1,4 +1,10 @@
-/* authors: Simon Kobyda, Michal Zelena (xkobyd00, xzelen24)
+/**
+ * BoardField: Trieda reprezentujuca policko dosky
+ * @author Simon Kobyda, xkobyd00
+ * @author Michal Zelenak, xzelen24
+ * Project: Chess
+ * University: Brno University of Technology
+ * Course: IJA
  */
 
 package gui;
@@ -13,6 +19,14 @@ public class FieldLabelGUI extends StackPane {
     protected int row;
     protected int size;
 
+
+    /**
+     * Graficke rozhranie pre popisovace riadkov a stlpcov
+     * @param white
+     * @param row - riadok ktory je popisovany.
+     * @param column - stlpec ktory je popisovany.
+     * @param size - Velkost popisovaca v pixeloch.
+     */
     public FieldLabelGUI(boolean white, int row, int column, int size) {
         this.col = column;
         this.row = row;
