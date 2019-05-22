@@ -42,7 +42,7 @@ public class FieldLabelGUI extends StackPane {
         if (column == 0 && row < 8)
             labelText = String.valueOf((char)('8' - row));
         else if (row == 8 && column != 0)
-            labelText = String.valueOf((char)('a' + column - 1));
+            labelText = String.valueOf((char)('A' + column - 1));
 
         Text text = new Text (labelText);
 

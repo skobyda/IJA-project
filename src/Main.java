@@ -102,11 +102,12 @@ public class Main extends Application {
             this.moveCount = 0;
             spreadFigures();
         });
-        buttonReset.setPrefSize(100, 20);
+        buttonReset.setMaxSize(100, 20);
 
         // Toolbar -> Delay input
         delayInput = new TextField();
         delayInput.setText("Delay (ms)");
+        delayInput.setMaxSize(100, 20);
 
         // Toolbar -> Forward Button
         buttonForward = new Button("Forward");
@@ -125,7 +126,7 @@ public class Main extends Application {
                 spreadFigures();
             }
         });
-        buttonForward.setPrefSize(100, 20);
+        buttonForward.setMaxSize(100, 20);
 
         // Toolbar -> Back Button
         buttonBack = new Button("Back");
@@ -136,16 +137,16 @@ public class Main extends Application {
                 list.getSelectionModel().select(moveCount - currentMove);
             }
         });
-        buttonBack.setPrefSize(100, 20);
+        buttonBack.setMaxSize(100, 20);
 
-        // Toolbar -> Automatic game Button
+        // Toolbar -> Play/Replay game Button
         choiceBox = new ChoiceBox<String>(
-            FXCollections.observableArrayList("Manual", "Automatic")
+            FXCollections.observableArrayList("Play", "Replay")
         );
         choiceBox.getSelectionModel().selectFirst();
         choiceBox.setOnAction(e -> {
             String value = (String) choiceBox.getValue();
-            if (value.equals("Automatic")) {
+            if (value.equals("Replay")) {
                 buttonStart.setDisable(false);
                 buttonLoadGame.setDisable(false);
             } else {
@@ -164,6 +165,14 @@ public class Main extends Application {
         // Toolbar -> Load game Button
         buttonLoadGame = new Button("Select File");
         buttonLoadGame.setOnAction(e -> {
+            this.board = new Board(8);
+            this.game = GameFactory.createChessGame(board);
+            this.moveHistory.clear();
+            moveHistory.add(0, "START");
+            this.currentMove = 0;
+            this.moveCount = 0;
+
+            spreadFigures();
             FileChooser fileChooser = new FileChooser();
             File gameFile = fileChooser.showOpenDialog(primaryStage);
             parseFile(gameFile);
@@ -194,7 +203,7 @@ public class Main extends Application {
         toolbar = new HBox();
         toolbar.setPadding(new Insets(15, 12, 15, 12));
         toolbar.setSpacing(10);
-        toolbar.setStyle("-fx-background-color: #336699;");
+        toolbar.setStyle("-fx-background-color: #E6E6FA;");
         toolbar.getChildren().addAll(choiceBox, buttonLoadGame, delayInput, buttonStart, buttonBack, buttonForward, buttonReset, buttonSaveGame);
 
         // Board
@@ -226,7 +235,7 @@ public class Main extends Application {
         tmp.setTop(toolbar);
         tmp.setRight(list);
 
-        Scene scene = new Scene(tmp, 900, 510);
+        Scene scene = new Scene(tmp, 680, 510);
 
         window.setScene(scene);
 
