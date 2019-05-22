@@ -82,7 +82,6 @@ public class Main extends Application {
     /**
      * Zaciatok hry.
      * @param primaryStage - Stav na zaciatku hry.
-     * @throws Exception
      */
     @Override
     public void start(Stage primaryStage) {

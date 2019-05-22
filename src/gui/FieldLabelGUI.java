@@ -22,9 +22,9 @@ public class FieldLabelGUI extends StackPane {
 
     /**
      * Graficke rozhranie pre popisovace riadkov a stlpcov
-     * @param white
-     * @param row - riadok ktory je popisovany.
-     * @param column - stlpec ktory je popisovany.
+     * @param white - Urcuje ci field je biely alebo cierny
+     * @param row - Riadok ktory je popisovany.
+     * @param column - Stlpec ktory je popisovany.
      * @param size - Velkost popisovaca v pixeloch.
      */
     public FieldLabelGUI(boolean white, int row, int column, int size) {

@@ -333,7 +333,7 @@ public class Chess implements Game {
 
     /**
      * Skontroluje spravnost notacie, a ulozi jednotlive pohyby do zasobniku.
-     * @param movesFile - Obsah suboru s notaciou.
+     * @param moves - Obsah suboru s notaciou.
      * @return bool
      */
     public boolean checkNotation(List<String> moves) {
