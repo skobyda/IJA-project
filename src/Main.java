@@ -89,7 +89,8 @@ public class Main extends Application {
 
         // Toolbar -> Delay input
         delayInput = new TextField();
-        delayInput.setText("Delay input (ms)");
+        delayInput.setText("Delay (ms)");
+        delayInput.setPrefSize(100, 20);
 
         // Toolbar -> Forward Button
         buttonForward = new Button("Forward");
