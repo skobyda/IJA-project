@@ -73,7 +73,8 @@ public class Pawn implements Figure {
      * Dekrementuje pocet pohybov.
      */
     public void decNumOfMoves() {
-        this.numOfMoves--;
+        if (numOfMoves > 0)
+            this.numOfMoves--;
     }
 
     /**
@@ -90,15 +91,17 @@ public class Pawn implements Figure {
      */
     public boolean canMove(Field moveTo) {
         // Figure did not move
-        if (position == null || position.equals(moveTo))
+        if (position == null || position.equals(moveTo)) {
             return false;
+        }
 
         Figure figureToCapture = moveTo.get();
         // There is a figure on destination Field, so we want to capture it
         if (figureToCapture != null) {
             // Do not capture piece of same color
-            if (moveTo.get().isWhite() == isWhite)
+            if (moveTo.get().isWhite() == isWhite) {
                 return false;
+            }
 
             Field field1 = position.nextField(isWhite ? Field.Direction.LD : Field.Direction.LU);
             Field field2 = position.nextField(isWhite ? Field.Direction.RD : Field.Direction.RU);

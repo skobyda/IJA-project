@@ -120,7 +120,7 @@ public class Chess implements Game {
      * @return bool
      */
     public boolean redo() {
-        if (redoMoveTo.empty() || redoMoveWho.empty())
+        if (redoMoveWho.empty() || redoMoveTo.empty())
             return false;
 
         Field field = redoMoveTo.pop();
@@ -338,6 +338,7 @@ public class Chess implements Game {
      */
     public boolean checkNotation(List<String> moves) {
         for(String move : moves) {
+
             String[] strs = move.split("\\.");
 
             if (strs == null || strs.length != 2)
@@ -462,10 +463,13 @@ public class Chess implements Game {
 
             move(moveFrom.get(), moveTo);
         }
+
+        return true;
     }
 
     /**
      * Vrati pocet vykonanych pohybov.
+
      * @return int
      */
     public int getMovesNum() {
@@ -476,6 +480,7 @@ public class Chess implements Game {
      * Jeden pohyb na sachovnici.
      * @param figure - Figurka ktorou sa bude hybat.
      * @param field - Policko na ktore sa bude hybat.
+
      * @return bool
      */
     @Override

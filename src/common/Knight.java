@@ -22,6 +22,7 @@ public class Knight implements Figure {
      * Konstruktor pre vytvorenie kona.
      * @param isWhite - Farba Kona.
      * @param typeStr - Typ figurky
+
      */
 	public Knight(boolean isWhite, String typeStr) {
         this.isWhite = isWhite;
@@ -95,8 +96,10 @@ public class Knight implements Figure {
             return false;
 
         // Do not capture piece of same color
-        if (moveTo.get() != null && moveTo.get().isWhite() == isWhite)
-            return false;
+        if (moveTo.get() != null ) {
+            if (moveTo.get().isWhite() == isWhite)
+                return false;
+        }
 
         int[] destPos = moveTo.getPosition();
         int[] currPos = position.getPosition();

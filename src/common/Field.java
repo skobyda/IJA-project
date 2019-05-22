@@ -11,6 +11,7 @@ package common;
 
 /**
  * Rozhranie policka dosky.
+
  */
 public interface Field {
 

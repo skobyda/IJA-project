@@ -50,7 +50,6 @@ public class Main extends Application {
     private Group fieldGroup = new Group();
     private Group figureGroup = new Group();
     private ObservableList<String> moveHistory = FXCollections.observableArrayList("START");
-    private File gameFile = null;
 
     // Toolbar
     private HBox toolbar;
@@ -93,17 +92,20 @@ public class Main extends Application {
         // Toolbar -> Reset Button
         buttonReset = new Button("Reset");
         buttonReset.setOnAction(e -> {
-            while (game.undo()) {
-                moveHistory.remove(0);
-                this.currentMove--;
-            }
+            this.board = new Board(8);
+            this.game = GameFactory.createChessGame(board);
+            this.moveHistory.clear();
+            moveHistory.add(0, "START");
+            this.currentMove = 0;
+            this.moveCount = 0;
             spreadFigures();
         });
         buttonReset.setPrefSize(100, 20);
 
         // Toolbar -> Delay input
         delayInput = new TextField();
-        delayInput.setText("Delay input (ms)");
+        delayInput.setText("Delay (ms)");
+        delayInput.setPrefSize(100, 20);
 
         // Toolbar -> Forward Button
         buttonForward = new Button("Forward");
@@ -113,6 +115,13 @@ public class Main extends Application {
                 spreadFigures();
                 this.currentMove++;
                 list.getSelectionModel().select(moveCount - currentMove);
+            } else {
+                if (game.playGame()) {
+                    moveHistory.add(0, game.getLastMove());
+                    this.currentMove++;
+                }
+                // refresh GUI
+                spreadFigures();
             }
         });
         buttonForward.setPrefSize(100, 20);
@@ -147,7 +156,7 @@ public class Main extends Application {
         // Toolbar -> Start button
         buttonStart = new Button("Start");
         buttonStart.setOnAction(e -> {
-            playGame(gameFile);
+            playGame();
         });
         buttonStart.setDisable(true);
 
@@ -155,7 +164,8 @@ public class Main extends Application {
         buttonLoadGame = new Button("Select File");
         buttonLoadGame.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
-            gameFile = fileChooser.showOpenDialog(primaryStage);
+            File gameFile = fileChooser.showOpenDialog(primaryStage);
+            parseFile(gameFile);
             buttonStart.setDisable(false);
         });
         buttonLoadGame.setDisable(true);
@@ -181,13 +191,9 @@ public class Main extends Application {
                 int desiredMove = moveCount - moveHistory.indexOf(item);
 
                 if (currentMove > desiredMove) {
-                    System.out.println("desired" + desiredMove);
-                    System.out.println("current" + currentMove);
                     while (currentMove != desiredMove && game.undo())
                         this.currentMove--;
                 } else if (currentMove < desiredMove) {
-                    System.out.println("desired" + desiredMove);
-                    System.out.println("current" + currentMove);
                     while (currentMove != desiredMove && game.redo())
                         this.currentMove++;
                 }
@@ -207,11 +213,11 @@ public class Main extends Application {
         window.show();
     }
 
-    public void playGame(File file) {
     /**
      * Rozdeluje subor do datovej struktury.
      * @param file Subor so vstupom.
      */
+    public void parseFile(File file) {
         List<String> moves = new ArrayList<String>();
         BufferedReader reader;
 		try {
@@ -227,6 +233,7 @@ public class Main extends Application {
 		}
 
         game.checkNotation(moves);
+    }
 
     /**
      * Vykonanie jedneho pohybu hry.
